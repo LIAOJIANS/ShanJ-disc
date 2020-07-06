@@ -1,7 +1,5 @@
 const mysql = require('mysql')
-
 const config = require('./index')
-
 const {debug} = require('../tool/constant')
 
 function connect() {
@@ -25,7 +23,6 @@ function querySql(sql) {
         }
       })
     } catch (err) {
-
       reject(err)
     } finally {
       conn.end()

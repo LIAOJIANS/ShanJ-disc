@@ -57,5 +57,6 @@ class Result {
     this.code = CODE_TOKEN_ERROR
     this.send(res)
   }
-
 }
+
+module.exports = Result

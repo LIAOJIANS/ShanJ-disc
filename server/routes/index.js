@@ -1,12 +1,15 @@
 const express = require('express');
 const boom = require('boom')
 const userRouter = require('./users')
+const uploadRouter = require('./upload')
 
 const { jwtAuth } = require('./jwt')
 const Result = require('../model/Result')
 const router = express.Router()
 router.use(jwtAuth)
+
 router.use('/user',userRouter)
+router.use('/file',uploadRouter)
 
 router.use((req, res, next) => {
   next(boom.notFound('接口不存在'))
