@@ -12,6 +12,20 @@ export default new Router ({
       path: '/',
       name: 'index',
       component: _import('Index/Index')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: _import('Login/Login')
+    },
+    {
+      path: '/app-account',
+      name: 'applicationAccount',
+      component: _import('applicationAccount/applicationAccount')
+    },
+    {
+      path: '*',
+      component: _import('404/404')
     }
   ]
 })

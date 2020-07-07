@@ -11,6 +11,9 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "node-sass": "^4.14.1",
+    "nprogress": "^0.2.0",
+    "sass-loader": "^9.0.1",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4"
   },
