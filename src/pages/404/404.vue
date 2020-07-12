@@ -22,7 +22,7 @@ export default {
     height: 100%;
     text-align: center;
     img {
-
+      max-height: 80%;
     }
   }
 </style>
