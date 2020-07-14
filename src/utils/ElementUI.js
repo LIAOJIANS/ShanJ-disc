@@ -9,7 +9,9 @@ import {
   Steps,
   Menu,
   MenuItem,
-  Submenu
+  MenuItemGroup,
+  Submenu,
+  Avatar
 } from 'element-ui'
 
 const element = {
@@ -23,6 +25,8 @@ const element = {
     Vue.use(Menu)
     Vue.use(MenuItem)
     Vue.use(Submenu)
+    Vue.use(Avatar)
+    Vue.use(MenuItemGroup)
     Vue.prototype.$message = Message
   }
 }
