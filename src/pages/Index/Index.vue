@@ -1,18 +1,24 @@
 <template>
   <div class="index-page">
-    <div>
-      <input type="file" @change="fileSelect($event)" />
-      <button @click="fileSubmit">上传</button>
-    </div>
-    <div class="progress-wrap">
-      <p>上传进度</p>
-      <p class="progress"><span :style="style"></span></p>
+    <index-right />
+    <index-left />
+    <div class="content p2">
+      <div>
+        <input type="file" @change="fileSelect($event)" />
+        <button @click="fileSubmit">上传</button>
+      </div>
+      <div class="progress-wrap">
+        <p>上传进度</p>
+        <p class="progress"><span :style="style"></span></p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import IndexLeft from '@/components/IndexLeft/IndexLeft'
+  import IndexRight from '@/components/IndexRight/IndexRight'
   export default {
     name: "Index",
     data(){
@@ -44,13 +50,17 @@
           console.log(res.data)
         })
       }
+    },
+    components: {
+      IndexLeft,
+      IndexRight
     }
   }
 </script>
 
 <style scoped>
   .index-page {
-    margin-left: 200px;
+    /*margin-left: 200px;*/
   }
   .progress-wrap {
     width: 300px;
@@ -67,5 +77,9 @@
     background-color: #19be6b;
     height: 100%;
     width: 0;
+  }
+  .content {
+    margin-left: 200px;
+    height: 100%;
   }
 </style>

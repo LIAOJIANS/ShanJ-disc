@@ -1,5 +1,5 @@
 <template>
-  <div class="index-left" :style="`height: ${ height }`">
+  <div class="index-left">
 
   </div>
 </template>
@@ -10,22 +10,18 @@
     data() {
       return {}
     },
-    computed: {
-      height() {
-        return document.body.clientHeight - 80 + 'px'
-      }
-    }
   }
 </script>
 
 <style lang="scss" scoped>
 .index-left {
-  position: absolute;
+  position: fixed;
   top: 80px;
   left: 0;
   bottom: 0;
-  height: 100%;
   width: 200px;
-  background: red;
+  background: #F9FAFB;
+  border-right: 1px solid #ccc;
 }
+
 </style>

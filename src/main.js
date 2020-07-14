@@ -8,6 +8,8 @@ import 'nprogress/nprogress.css'
 import '@/assets/reset.css'
 import Element from '@/utils/ElementUI'
 
+import store from '@/store'
+
 router.beforeEach((to, form, next) => {
   NProgress.start()
   next()
@@ -25,5 +27,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

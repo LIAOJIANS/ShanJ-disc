@@ -6,7 +6,10 @@ import {
   Form,
   FormItem,
   Step,
-  Steps
+  Steps,
+  Menu,
+  MenuItem,
+  Submenu
 } from 'element-ui'
 
 const element = {
@@ -17,6 +20,9 @@ const element = {
     Vue.use(FormItem)
     Vue.use(Step)
     Vue.use(Steps)
+    Vue.use(Menu)
+    Vue.use(MenuItem)
+    Vue.use(Submenu)
     Vue.prototype.$message = Message
   }
 }

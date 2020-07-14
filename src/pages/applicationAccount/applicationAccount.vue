@@ -8,30 +8,24 @@
       </el-steps>
     </div>
     <div class="app-count-contetn dispaly-content-center pt-3">
-      <el-form class="email-form dispaly-content-center">
+      <el-form class="email-form dispaly-content-center" :model="aapForm" :rules="appRules">
         <div style="text-align: center">
           <el-form-item
               v-if="stepCount === 0"
-              prop="text"
+              prop="username"
               label="用户名"
               class="dispaly-center"
-              :rules="[
-              { required: true, message: '请输入您的用户名', trigger: 'blur' }
-            ]"
           >
-            <el-input v-model="username" placeholder="用户名"></el-input>
+            <el-input v-model="aapForm.username" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item
               v-if="stepCount === 1"
               prop="email"
               label="邮箱"
+              min-leng="6"
               class="dispaly-center"
-              :rules="[
-              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-            ]"
           >
-            <el-input v-model="email" placeholder="邮箱" ></el-input>
+            <el-input v-model="aapForm.email" placeholder="邮箱" ></el-input>
           </el-form-item>
 
           <el-form-item
@@ -40,12 +34,10 @@
               label="邮箱验证码"
               class="dispaly-center"
           >
-            <el-input v-model="yzm" placeholder="验证码" :rules="[
-              { required: true, message: '请输入您的验证码', trigger: 'blur' }
-            ]"></el-input>
+            <el-input v-model="aapForm.yzm" placeholder="验证码"></el-input>
           </el-form-item>
-          <div  v-else-if="stepCount === 3">
-            提交完成，正在等管理员审核，请留意您的邮箱
+          <div class="mt-3 mb-3" v-else-if="stepCount === 3">
+            提交完成，正在等管理员审核，请留意您的邮箱。
           </div>
           <el-button type="primary" style="margin-top: 12px;" @click="submit" :disabled="disableBtn">{{ stepCount === 3 ? '返回登录页' : '下一步' }}</el-button>
         </div>
@@ -60,24 +52,37 @@ export default {
   data() {
     return {
       stepCount: 0,
-      email: '',
-      yzm: '',
-      username: '',
+      aapForm: {
+        username: '',
+        email: '',
+        yzm: ''
+      },
+      appRules: {
+        username: [ { required: true, message: '请输入您的用户名', trigger: 'blur' }],
+        email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }, { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
+        yzm: [ { required: true, message: '请输入您的验证码', trigger: 'blur' }]
+      },
       disableBtn: true
     }
   },
   watch: {
-    username(newVal) {
-     this.btnChage(newVal)
+    'aapForm.username' : {
+      handler: function (newVal) {
+        this.btnChage(newVal)
+      }
     },
 
-    yzm(newVal) {
-      this.btnChage(newVal)
+    'aapForm.yzm' : {
+      handler: function (newVal) {
+        this.btnChage(newVal)
+      }
     },
 
-    email(newVal) {
-      this.btnChage(newVal)
-      if(this.emailCheck(newVal)) this.disableBtn = true
+    'aapForm.email' : {
+      handler: function (newVal) {
+        this.btnChage(newVal)
+        if(this.emailCheck(newVal)) this.disableBtn = true
+      }
     }
   },
   methods: {
@@ -86,6 +91,7 @@ export default {
     },
 
     emailCheck(val) {
+      // eslint-disable-next-line no-useless-escape
       return !/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(val)
     },
 
