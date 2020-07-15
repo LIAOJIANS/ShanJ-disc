@@ -18,6 +18,6 @@
     width: 100%;
     height: 100%;
     position: relative;
-    background: #F9FAFB;
+    background: #fff;
   }
 </style>

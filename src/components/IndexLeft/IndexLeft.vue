@@ -17,8 +17,12 @@
           <span>全部文件</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
+          <el-menu-item index="1-1">图片</el-menu-item>
+          <el-menu-item index="1-2">视频</el-menu-item>
+          <el-menu-item index="1-3">文档</el-menu-item>
+          <el-menu-item index="1-4">音乐</el-menu-item>
+          <el-menu-item index="1-5">种子</el-menu-item>
+          <el-menu-item index="1-6">其他</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="3">
@@ -26,7 +30,7 @@
         <span slot="title">隐藏空间</span>
       </el-menu-item>
       <el-menu-item index="4">
-        <i class="el-icon-lock"></i>
+        <i class="el-icon-share"></i>
         <span slot="title">我的分享</span>
       </el-menu-item>
       <el-menu-item index="5">
