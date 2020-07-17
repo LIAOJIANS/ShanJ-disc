@@ -215,6 +215,14 @@ body {
   display: flex;
 }
 
+.warp {
+    flex-wrap: wrap;
+}
+
+.text-center {
+    text-align: center;
+}
+
 .f1 {
   flex: 1;
 }

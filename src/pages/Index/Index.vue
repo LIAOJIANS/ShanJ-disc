@@ -23,8 +23,18 @@
         </ul>
       </div>
       <div class="document-content">
-        <div class="content-box">
-
+        <div class="content-box pl-2 pr-2 pt-1">
+          <ul class="dispaly warp">
+            <li class="wenjian-item pr-2 pl-2 pt-2 pb-1 text-center mt-1" v-for="item in 30" @keydow.ctrl="keyToSelect" :key="item">
+              <i class="iconfont icon-wenjianjiaguanbi"></i>
+              <p class="content-box-title mt-2">我收藏的小可爱</p>
+            </li>
+            <li class="add-upload dispaly-content-center mt-2">
+              <p class="pr-2 pl-2 pt-2 pb-2">
+                <i class="iconfont el-icon-plus"></i>
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -43,6 +53,12 @@
       }
     },
 
+    methods: {
+      keyToSelect(e) {
+        console.log(e)
+      }
+    },
+
     components: {
       IndexLeft,
       IndexRight
@@ -52,7 +68,7 @@
 
 <style lang="scss" scoped>
   .index-page {
-    /*margin-left: 200px;*/
+    height: 91%;
   }
   .content {
     margin-left: 200px;
@@ -92,6 +108,50 @@
     }
     ul:nth-of-type(1) {
       border-right: 1px solid #e4e4e4;
+    }
+  }
+  .document-content {
+    height: 89%;
+    position: relative;
+    overflow-y: auto;
+  }
+  .content-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    li {
+      width: 10%;
+      cursor: pointer;
+    }
+
+    .wenjian-item {
+      &:hover {
+        background: #F2FAFF;
+      }
+    }
+
+    .add-upload p {
+      width: 90px;
+      height: 90px;
+      border: 1px dashed #BBBBBB;
+    }
+
+    .el-icon-plus {
+      font-size: 48px;
+      color: #BBBBBB;
+    }
+
+    .icon-wenjianjiaguanbi {
+      font-size: 60px;
+      color: #F8C92A;
+    }
+    .content-box-title {
+      font-size: 14px;
+      color: #666;
+    }
+    .action-change {
+      border: 1px solid #1ED0FF;
+      background: #DAF5FF;
     }
   }
 </style>
