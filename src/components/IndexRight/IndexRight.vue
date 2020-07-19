@@ -9,8 +9,8 @@
         <el-menu-item index="2">处理中心</el-menu-item>
         <el-menu-item index="3">消息中心</el-menu-item>
         <el-menu-item index="4">订单管理</el-menu-item>
-        <el-menu-item index="4">订单管理</el-menu-item>
-        <el-menu-item index="4">订单管理</el-menu-item>
+        <el-menu-item index="5">订单管理</el-menu-item>
+        <el-menu-item index="6">订单管理</el-menu-item>
       </el-menu>
     </div>
     <div class="user-info dispaly-center">

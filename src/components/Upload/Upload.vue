@@ -14,6 +14,12 @@
 <script>
   export default {
     name: "Upload",
+    data() {
+      return {
+        file: {}, //上传的文件对象
+        progressBar: 0 // 记录上传进度的变量
+      }
+    },
     computed:{
       style(){ // 进度条样式
         return {
