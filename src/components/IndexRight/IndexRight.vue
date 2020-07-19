@@ -4,13 +4,18 @@
       <span>logo</span>
     </div>
     <div class="muen f1 ml-3">
-      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#EEF0F6" active-text-color="#409eff">
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+        background-color="#EEF0F6"
+        active-text-color="#409eff">
         <el-menu-item index="1">我的网盘</el-menu-item>
-        <el-menu-item index="2">处理中心</el-menu-item>
-        <el-menu-item index="3">消息中心</el-menu-item>
-        <el-menu-item index="4">订单管理</el-menu-item>
-        <el-menu-item index="5">订单管理</el-menu-item>
-        <el-menu-item index="6">订单管理</el-menu-item>
+        <el-menu-item index="2">传输列表</el-menu-item>
+        <el-menu-item index="3">分享空间</el-menu-item>
+        <el-menu-item index="4">功能宝箱</el-menu-item>
+        <el-menu-item index="5">找资源</el-menu-item>
       </el-menu>
     </div>
     <div class="user-info dispaly-center">
@@ -53,6 +58,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+}
+
+.muen {
+  width: 500px;
+  overflow-x: auto;
+  ul {
+    white-space: nowrap;
   }
 }
 
