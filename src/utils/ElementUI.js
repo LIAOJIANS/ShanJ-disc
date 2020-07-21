@@ -11,7 +11,9 @@ import {
   MenuItem,
   MenuItemGroup,
   Submenu,
-  Avatar
+  Avatar,
+  Checkbox,
+  CheckboxGroup
 } from 'element-ui'
 
 const element = {
@@ -27,6 +29,8 @@ const element = {
     Vue.use(Submenu)
     Vue.use(Avatar)
     Vue.use(MenuItemGroup)
+    Vue.use(Checkbox)
+    Vue.use(CheckboxGroup)
     Vue.prototype.$message = Message
   }
 }

@@ -43,23 +43,48 @@
             </p>
           </li>
         </ul>
+        <ul v-else>
+          <li>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+          </li>
+          <li>
+            <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+              <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+            </el-checkbox-group>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
     name: "Home",
     data() {
       return {
         selectSingleOne: '',
         selectMultiple: [],
-        mode: true // true 为圆格模式，false 列表模式
+        mode: true, // true 为圆格模式，false 列表模式
+        checkAll: false,
+        checkedCities: ['上海', '北京'],
+        cities: cityOptions,
+        isIndeterminate: true
       }
     },
 
     methods: {
+      handleCheckAllChange(val) {
+        this.checkedCities = val ? cityOptions : [];
+        this.isIndeterminate = false;
+      },
+      handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.cities.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      },
+      
       keyToSelect(item) {
         const isItem = this.selectMultiple.indexOf(item)
         if (isItem !== -1) {
@@ -197,6 +222,9 @@
   @media screen and ( max-width: 1200px ) {
     
     .content-box {
+      ul {
+        justify-content: center;
+      }
       li {
         width: 20%!important;
         cursor: pointer!important;
