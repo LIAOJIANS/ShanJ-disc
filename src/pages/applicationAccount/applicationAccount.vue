@@ -2,9 +2,9 @@
   <div class="app-count-page">
     <div class="steps-content dispaly-content-center mt-3">
       <el-steps :active="stepCount" style="width: 80%;" finish-status="success">
-        <el-step :title="[1, 2, 3].indexOf(stepCount) === -1 ? '进行中' : '已完成'"></el-step>
-        <el-step :title="stepCount === 1 ? '进行中' : '已完成'"></el-step>
-        <el-step :title="stepCount === 3 ? '已完成' : '进行中'"></el-step>
+        <el-step :title="firstStep"></el-step>
+        <el-step :title="twoStep"></el-step>
+        <el-step :title="thirdStep"></el-step>
       </el-steps>
     </div>
     <div class="app-count-contetn dispaly-content-center pt-3">
@@ -65,6 +65,21 @@ export default {
       disableBtn: true
     }
   },
+  
+  computed: {
+    firstStep() {
+      return [1, 2, 3].indexOf(this.stepCount) === -1 ? '进行中' : '已完成'
+    },
+
+    twoStep() {
+      return this.stepCount === 1 ? '进行中' : '已完成'
+    },
+
+    thirdStep() {
+      return this.stepCount === 3 ? '已完成' : '进行中'
+    }
+  },
+  
   watch: {
     'aapForm.username' : {
       handler: function (newVal) {

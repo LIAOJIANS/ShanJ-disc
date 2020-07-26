@@ -20,12 +20,13 @@
         <li class="pl-1"><span class="el-icon-refresh-right"></span></li>
       </ul>
       <ul>
-        <li class="dispaly-center">我的网盘<span class="el-icon-arrow-right" style="font-size: 14px; padding-left: 5px;"></span></li>
+        <li class="dispaly-center">我的网盘<span class="el-icon-arrow-right"
+                                             style="font-size: 14px; padding-left: 5px;"></span></li>
       </ul>
     </div>
     <div class="document-content">
-      <div class="content-box pl-2 pr-2 pt-1">
-        <ul class="dispaly warp" v-if="mode">
+      <div class="content-box" :class="[ mode && 'pl-2 pr-2 pt-1' ]">
+        <ul class="dispaly warp ul-radio" v-if="mode">
           <li
             class="wenjian-item pr-2 pl-2 ml-1 pt-2 pb-1 text-center mt-1"
             v-for="item in 30"
@@ -43,15 +44,24 @@
             </p>
           </li>
         </ul>
-        <ul v-else>
-          <li>
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <ul class="file-list" v-else>
+          <li class="dispaly-flex border p1" style="width: 100%;">
+            <div class="file-name dispaly-center">
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"></el-checkbox>
+              <p class="ml-2">文件名</p>
+            </div>
+            <p class="modification-time">修改时间</p>
+            <p class="file-size">大小</p>
           </li>
-          <li>
+          
+          <li class="p1">
             <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-              <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+              <el-checkbox :label="file"  v-for="file in fileList" :key="file">
+                <i class="iconfont icon-wenjianjiaguanbi"></i>
+              </el-checkbox>
             </el-checkbox-group>
           </li>
+          
         </ul>
       </div>
     </div>
@@ -59,38 +69,40 @@
 </template>
 
 <script>
-  const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
     name: "Home",
     data() {
       return {
         selectSingleOne: '',
         selectMultiple: [],
-        mode: true, // true 为圆格模式，false 列表模式
+        mode: false, // true 为圆格模式，false 列表模式
         checkAll: false,
-        checkedCities: ['上海', '北京'],
-        cities: cityOptions,
+        checkedCities: [],
+        fileList: [
+          '1', '2', '3'
+        ],
         isIndeterminate: true
       }
     },
 
     methods: {
       handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
-      },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+        this.checkedCities = val ? this.fileList : []
+        this.isIndeterminate = false
       },
       
+      handleCheckedCitiesChange(value) {
+        let checkedCount = value.length
+        this.checkAll = checkedCount === this.fileList.length
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.fileList.length
+      },
+
       keyToSelect(item) {
         const isItem = this.selectMultiple.indexOf(item)
         if (isItem !== -1) {
           return this.selectMultiple.splice(isItem, 1)
         }
-        this.selectMultiple = [ ...this.selectMultiple, item ]
+        this.selectMultiple = [...this.selectMultiple, item]
       },
 
       selectSingle(item) {
@@ -138,6 +150,20 @@
     }
   }
   
+  .border {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .file-list {
+    width: 100%;
+    
+    p {
+      font-size: 14px;
+      color: #666;
+    }
+    
+  }
+  
   .switch-mode {
     i {
       cursor: pointer;
@@ -147,7 +173,7 @@
   
   .my-disc {
     border-bottom: 1px solid #f0f0f0;
-    
+  
     li {
       font-size: 14px;
       cursor: pointer;
@@ -178,12 +204,15 @@
   
   .content-box {
     position: absolute;
+    width: 100%;
     top: 0;
     left: 0;
     
-    li {
-      width: 10%;
-      cursor: pointer;
+    .ul-radio {
+      li {
+        width: 10%;
+        cursor: pointer;
+      }
     }
     
     .wenjian-item {
@@ -219,15 +248,18 @@
     }
   }
   
-  @media screen and ( max-width: 1200px ) {
+  @media screen and (max-width: 1200px) {
     
     .content-box {
-      ul {
+      .ul-radio {
         justify-content: center;
       }
-      li {
-        width: 20%!important;
-        cursor: pointer!important;
+      
+      .ul-radio {
+        li {
+          width: 20% !important;
+          cursor: pointer !important;
+        }
       }
     }
   }
