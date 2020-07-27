@@ -13,7 +13,10 @@ import {
   Submenu,
   Avatar,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Col,
+  Row,
+  Progress
 } from 'element-ui'
 
 const element = {
@@ -31,6 +34,9 @@ const element = {
     Vue.use(MenuItemGroup)
     Vue.use(Checkbox)
     Vue.use(CheckboxGroup)
+    Vue.use(Col)
+    Vue.use(Row)
+    Vue.use(Progress)
     Vue.prototype.$message = Message
   }
 }
