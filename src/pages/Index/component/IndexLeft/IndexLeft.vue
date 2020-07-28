@@ -69,6 +69,7 @@
   width: 200px;
   background: #F9FAFB;
   border-right: 1px solid #ccc;
+  z-index: 1;
 }
 .el-submenu .el-menu-item {
   border-right: 1px solid #ccc;

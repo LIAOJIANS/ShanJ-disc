@@ -1,31 +1,11 @@
 <template>
   <div class="content">
-    <div class="function-bar dispaly-center">
-      <ul class="dispaly-center pt-1 pb-1 f1">
-        <li class="ml-1"><p><i class="el-icon-upload2"></i>上传</p></li>
-        <li class="ml-1"><p><i class="el-icon-download"></i>下载</p></li>
-        <li class="ml-1"><p><i class="el-icon-share"></i>分享</p></li>
-        <li class="ml-1"><p><i class="el-icon-delete"></i>删除</p></li>
-        <li class="ml-1"><p><i class="el-icon-folder-add"></i>新建文件夹</p></li>
-      </ul>
-      <div class="switch-mode mr-3">
-        <i class="el-icon-s-fold" v-if="mode" @click="mode = false"></i>
-        <i class="el-icon-menu" v-else @click="mode = true"></i>
-      </div>
-    </div>
-    <div class="my-disc dispaly-center p1">
-      <ul class="dispaly-center mr-2 pr-2">
-        <li class="pl-1 c"><span class="el-icon-arrow-left"></span></li>
-        <li class="pl-1"><span class="el-icon-arrow-right"></span></li>
-        <li class="pl-1"><span class="el-icon-refresh-right"></span></li>
-      </ul>
-      <ul>
-        <li class="dispaly-center">我的网盘<span class="el-icon-arrow-right" style="font-size: 14px; padding-left: 5px;"></span></li>
-      </ul>
-    </div>
+    <function-column :mode="mode" @patternChange="patternChange" />
+    <historical-records />
     <div class="document-content">
       <div class="content-box" :class="[ mode && 'pl-2 pr-2 pt-1' ]">
         <ul class="dispaly warp ul-radio" v-if="mode">
+
           <li
             class="wenjian-item pr-2 pl-2 ml-1 pt-2 pb-1 text-center mt-1"
             v-for="item in fileList"
@@ -35,15 +15,18 @@
             :class="[( selectMultiple.find(index => item.id === index) || selectSingleOne === item.id ) && 'action-change']"
           >
             <i class="iconfont icon-wenjianjiaguanbi"></i>
-            <p class="content-box-title mt-2">我收藏的小可爱</p>
+            <p class="content-box-title mt-2">{{ item.filename }}</p>
           </li>
+
           <li class="add-upload d-c-c mt-2">
             <p class="pr-2 pl-2 pt-2 pb-2">
               <i class="iconfont el-icon-plus"></i>
             </p>
           </li>
+
         </ul>
         <ul class="file-list" v-else>
+
           <li class="dispaly-flex border p1" style="width: 100%;">
             <el-row style="width: 100%;">
               <el-col :span="10">
@@ -97,6 +80,7 @@
               </el-col>
             </el-row>
           </li>
+
         </ul>
       </div>
       <file-button />
@@ -106,10 +90,14 @@
 
 <script>
 import FileButton from './components/FileButton'
+import FunctionColumn from "./components/FunctionColumn";
+import HistoricalRecords from "./components/HistoricalRecords";
   export default {
     name: "Home",
     components: {
-      FileButton
+      FileButton,
+      FunctionColumn,
+      HistoricalRecords
     },
     data() {
       return {
@@ -147,11 +135,14 @@ import FileButton from './components/FileButton'
     watch: {
       checkedFile() {
         this.checkAll = this.fileList.length === this.checkedFile.length
-        console.log(this.checkedFile)
       }
     },
 
     methods: {
+      patternChange() {
+        this.mode = !this.mode
+      },
+
       handleCheckAllChange(val) {
         if(val) {
           this.checkAll = true
@@ -202,39 +193,10 @@ import FileButton from './components/FileButton'
 <style lang="scss" scoped>
 
   .content {
-    margin-left: 200px;
     height: 100%;
   }
 
-  .function-bar {
-    background: #f9fafb;
-    border-bottom: 1px solid #f0f0f0;
 
-    li {
-      cursor: pointer;
-      padding: 8px 10px;
-      max-height: 52px;
-    }
-
-    li:hover {
-      border: 1px solid #1ed0ff;
-
-      i, p {
-        color: #1ed0ff;
-      }
-    }
-
-    p {
-      color: #333;
-      font-size: 14px;
-    }
-
-    i {
-      color: #333;
-      font-size: 16px;
-      margin-right: 5px;
-    }
-  }
 
   .border {
     border-bottom: 1px solid #f0f0f0;
@@ -259,38 +221,6 @@ import FileButton from './components/FileButton'
       }
     }
 
-  }
-
-  .switch-mode {
-    i {
-      cursor: pointer;
-      font-size: 22px;
-    }
-  }
-
-  .my-disc {
-    border-bottom: 1px solid #f0f0f0;
-
-    li {
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .b {
-      color: #333;
-    }
-
-    .c {
-      color: #cccccc;
-    }
-
-    span {
-      font-size: 16px;
-    }
-
-    ul:nth-of-type(1) {
-      border-right: 1px solid #e4e4e4;
-    }
   }
 
   .document-content {

@@ -1,28 +1,30 @@
 <template>
   <div class="index-page">
-    <index-right/>
+    <index-top/>
     <index-left/>
-    <router-view />
+    <AppMain />
   </div>
 </template>
 
 <script>
-  import IndexLeft from '@/components/IndexLeft/IndexLeft'
-  import IndexRight from '@/components/IndexRight/IndexRight'
-
+  import IndexLeft from './component/IndexLeft/IndexLeft'
+  import IndexTop from './component/IndexTop/IndexTop'
+  import AppMain from "./component/AppMain/AppMain";
   export default {
     name: "Index",
-
     components: {
       IndexLeft,
-      IndexRight
+      IndexTop,
+      AppMain
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .index-page {
-    height: 91%;
-  }
+.index-page {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
 
 </style>

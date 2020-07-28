@@ -37,6 +37,17 @@
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+        switch (key) {
+          case '1':
+            this.goRouter('/')
+            break
+          default:
+            break
+        }
+      },
+
+      goRouter(path) {
+        (this.$router.history.current.path !== path) && this.$router.push(path)
       }
     }
   }
@@ -48,6 +59,11 @@
   height: 80px;
   background: #EEF0F6;
   border-bottom: 1px solid #ccc;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 .logo {
   position: relative;

@@ -1,24 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
+import './permission'
 import '@/assets/reset.css'
 import '@/assets/font/iconfont.css'
 import Element from '@/utils/ElementUI'
 
 import store from '@/store'
 
-router.beforeEach((to, form, next) => {
-  NProgress.start()
-  next()
-})
-
-router.afterEach(() => {
-  NProgress.done()
-})
 
 import 'element-ui/lib/theme-chalk/base.css'
 import 'element-ui/lib/theme-chalk/index.css'
