@@ -1,7 +1,6 @@
 <template>
   <div class="content">
     <function-column :mode="mode" @patternChange="patternChange" />
-    <historical-records />
     <div class="document-content">
       <div class="content-box" :class="[ mode && 'pl-2 pr-2 pt-1' ]">
         <ul class="dispaly warp ul-radio" v-if="mode">
@@ -91,13 +90,11 @@
 <script>
 import FileButton from './components/FileButton'
 import FunctionColumn from "./components/FunctionColumn";
-import HistoricalRecords from "./components/HistoricalRecords";
   export default {
     name: "Home",
     components: {
       FileButton,
-      FunctionColumn,
-      HistoricalRecords
+      FunctionColumn
     },
     data() {
       return {

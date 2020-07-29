@@ -35,6 +35,21 @@ export default new Router ({
     },
 
     {
+      path: '/transfer',
+      component: Index,
+      children: [
+        {
+          path: '/transfer',
+          component: _import('TransferList/TransferList'),
+          name: 'TransferList',
+          meta: {
+            title: '传输列表'
+          }
+        }
+      ]
+    },
+
+    {
       path: '/login',
       name: 'login',
       component: _import('Login/Login')

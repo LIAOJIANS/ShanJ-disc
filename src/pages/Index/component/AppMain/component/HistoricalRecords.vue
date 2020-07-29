@@ -5,7 +5,7 @@
       <li class="pl-1"><span class="el-icon-arrow-right"></span></li>
       <li class="pl-1"><span class="el-icon-refresh-right"></span></li>
     </ul>
-    <div>
+    <div class="dispaly-center">
       <router-link
           class="dispaly-center router-link"
           v-for="tag in visitedViews"
@@ -17,7 +17,7 @@
           @contextmenu.prevent.native="openMenu(tag, $event)"
       >
         <p>{{ tag.meta.title }}</p>
-        <span class="el-icon-arrow-right" style="font-size: 14px; padding-left: 5px;"></span>
+        <span class="el-icon-arrow-right pr-1" style="font-size: 14px; padding-left: 5px;"></span>
       </router-link>
       <ul v-show="visible" :style="{ left: left + 'px', top: top+'px' }" class="contextmenu">
         <li @click="refreshSelectedTag(selectedTag)">重新加载</li>
@@ -51,6 +51,10 @@ export default {
   watch: {
     $route() {
       this.addHistory()
+    },
+
+    visible(value) {
+      value ? document.body.addEventListener('click', this.closeMenu) : document.body.removeEventListener('click', this.closeMenu)
     }
   },
 
@@ -102,24 +106,23 @@ export default {
     },
 
     handleView(view) {
-      if (view.name === 'Index') {
-        this.$router.replace({ path: '/redirect' + view.fullPath })
-      } else {
-        this.$router.push('/')
-      }
+      view.name === 'Index' ? this.$router.replace({ path: '/redirect' + view.fullPath }) : this.$router.push('/')
     },
 
     closeOthersTags() {
-
+      this.$router.replace({ path: '/redirect' + this.selectedTag.fullPath })
+      this.$store.dispatch('delOtherHistory', this.selectedTag)
     },
 
     closeAllTags(view) {
-      console.log(view)
+      this.$store.dispatch('delAllHistory').then(({ historyList }) => {
+        this.toLastView(historyList, view)
+      })
     },
 
     closeMenu() {
       this.visible = false
-    },
+    }
   }
 }
 </script>
@@ -151,8 +154,23 @@ export default {
   .router-link p {
     font-size: 14px;
     cursor: pointer;
-    &.active {
+  }
+
+  .active {
+    span {
       color: #00B7FF;
+    }
+    P {
+      position: relative;
+      color: #00B7FF;
+      &:before {
+        content: '';
+        width: 100%;
+        height: 3px;
+        position: absolute;
+        bottom: -7px;
+        background: #409EFF;
+      }
     }
   }
 

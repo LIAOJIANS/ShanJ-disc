@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  const routerBox = ['/', '/transfer']
   export default {
     name: "IndexRight",
     data() {
@@ -34,12 +35,31 @@
         activeIndex: '1'
       }
     },
+
+    mounted() {
+      this.routingLocation(this.$route)
+    },
+
+    watch: {
+      $route(to) {
+       this.routingLocation(to)
+      }
+    },
+
     methods: {
+
+      routingLocation(router) {
+        this.activeIndex = (routerBox.indexOf(router.path) + 1).toString()
+      },
+
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
         switch (key) {
           case '1':
             this.goRouter('/')
+            break
+          case '2':
+            this.goRouter('/transfer')
             break
           default:
             break
