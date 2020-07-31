@@ -1,7 +1,7 @@
 <template>
   <div class="my-disc dispaly-center p1">
     <ul class="dispaly-center mr-2 pr-2">
-      <li class="pl-1 c" @click="$router.go(-1)"><span class="el-icon-arrow-left"></span></li>
+      <li class="pl-1" @click="goBack" :class="[ historyLength <= 2 && 'c']"><span class="el-icon-arrow-left"></span></li>
       <li class="pl-1" @click="$router.go(1)"><span class="el-icon-arrow-right"></span></li>
       <li class="pl-1" @click="refreshSelectedTag($route)"><span class="el-icon-refresh-right"></span></li>
     </ul>
@@ -38,7 +38,8 @@ export default {
       visible: false,
       left: 0,
       top: 0,
-      selectedTag: {}
+      selectedTag: {},
+      historyLength: 0
     }
   },
 
@@ -50,7 +51,7 @@ export default {
 
   watch: {
     $route() {
-      console.log(this.$router.history)
+      this.historyLength = window.history.length
       this.addHistory()
     },
 
@@ -60,13 +61,12 @@ export default {
   },
 
   mounted() {
-    console.log(this.$router.history)
     this.addHistory()
   },
 
   methods: {
-    routingTransition() {
-      console.log(this.$store.getters.historyList)
+    goBack() {
+      this.historyLength > 2 && this.$router.go(-1)
     },
 
     addHistory() {
