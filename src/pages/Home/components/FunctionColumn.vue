@@ -42,7 +42,6 @@ export default {
     }
 
     li:hover {
-      border: 1px solid #1ed0ff;
 
       i, p {
         color: #1ed0ff;

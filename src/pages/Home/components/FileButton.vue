@@ -1,7 +1,7 @@
 <template>
   <div class="home-button dispaly-center">
     <div class="home-button-left pl-1 pr-1" style="width: 198px;">
-      <el-progress :percentage="50" :show-text="false"></el-progress>
+      <progress-list :show-text="false" :percentage="50" :width="6" />
       <div class="mt-1 dispaly-flex">
         <p><span>10G</span> / <span>20G</span></p>
         <p style="color: #00B7FF; cursor: pointer">扩容</p>
@@ -14,8 +14,13 @@
 </template>
 
 <script>
+import ProgressList from "../../../components/progress/progress";
 export default {
-  name: "FileButton"
+  name: "FileButton",
+
+  components: {
+    ProgressList
+  }
 }
 </script>
 
@@ -26,6 +31,7 @@ export default {
     left: 0;
     right: 0;
     height: 40px;
+    z-index: 2;
 
     .home-button-left {
       height: 40px;

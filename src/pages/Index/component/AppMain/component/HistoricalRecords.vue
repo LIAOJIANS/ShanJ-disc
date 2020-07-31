@@ -1,9 +1,9 @@
 <template>
   <div class="my-disc dispaly-center p1">
     <ul class="dispaly-center mr-2 pr-2">
-      <li class="pl-1 c"><span class="el-icon-arrow-left"></span></li>
-      <li class="pl-1"><span class="el-icon-arrow-right"></span></li>
-      <li class="pl-1"><span class="el-icon-refresh-right"></span></li>
+      <li class="pl-1 c" @click="$router.go(-1)"><span class="el-icon-arrow-left"></span></li>
+      <li class="pl-1" @click="$router.go(1)"><span class="el-icon-arrow-right"></span></li>
+      <li class="pl-1" @click="refreshSelectedTag($route)"><span class="el-icon-refresh-right"></span></li>
     </ul>
     <div class="dispaly-center">
       <router-link
@@ -50,6 +50,7 @@ export default {
 
   watch: {
     $route() {
+      console.log(this.$router.history)
       this.addHistory()
     },
 
@@ -59,10 +60,15 @@ export default {
   },
 
   mounted() {
+    console.log(this.$router.history)
     this.addHistory()
   },
 
   methods: {
+    routingTransition() {
+      console.log(this.$store.getters.historyList)
+    },
+
     addHistory() {
       const { name } = this.$route
       name && this.$store.dispatch('addRouter', this.$route)

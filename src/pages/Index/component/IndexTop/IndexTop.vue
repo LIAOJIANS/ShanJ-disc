@@ -52,8 +52,8 @@
         this.activeIndex = (routerBox.indexOf(router.path) + 1).toString()
       },
 
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+      handleSelect(key) {
+        // console.log(key, keyPath);
         switch (key) {
           case '1':
             this.goRouter('/')

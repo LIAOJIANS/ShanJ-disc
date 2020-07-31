@@ -5,56 +5,83 @@
       :default-openeds="['2']"
       class="el-menu-vertical-demo"
       background-color="#F9FAFB"
+      @select="handleSelect"
       @open="handleOpen"
       @close="handleClose">
-      <el-menu-item index="1">
-        <i class="el-icon-time"></i>
-        <span slot="title">最近文件</span>
-      </el-menu-item>
-      <el-submenu index="2" >
-        <template slot="title">
-          <i class="el-icon-tickets"></i>
-          <span>全部文件</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1">图片</el-menu-item>
-          <el-menu-item index="1-2">视频</el-menu-item>
-          <el-menu-item index="1-3">文档</el-menu-item>
-          <el-menu-item index="1-4">音乐</el-menu-item>
-          <el-menu-item index="1-5">种子</el-menu-item>
-          <el-menu-item index="1-6">其他</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-menu-item index="3">
-        <i class="el-icon-lock"></i>
-        <span slot="title">隐藏空间</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-share"></i>
-        <span slot="title">我的分享</span>
-      </el-menu-item>
-      <el-menu-item index="5">
-        <i class="el-icon-delete"></i>
-        <span slot="title">回收站</span>
-      </el-menu-item>
+      <template v-for="item in navList">
+        <component
+            :is="(item.children && item.children.length > 0)
+            ? 'el-submenu' : 'el-menu-item'"
+            :index="item.key"
+            :key="item.key"
+        >
+          <template slot="title">
+            <i :class="item.icon"></i>
+            <span slot="title">{{ item.title }}</span>
+          </template>
+          <template v-if="item.children&&item.children.length>0">
+            <el-menu-item-group >
+              <el-menu-item
+                  v-for="itemChild in item.children"
+                  :index="itemChild.key"
+                  :key="itemChild.key"
+              >{{ itemChild.title }}</el-menu-item>
+            </el-menu-item-group>
+          </template>
+        </component>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <script>
+  import config from '@/utils/config'
+  const { transfer, home } = config
   export default {
     name: "IndexLeft",
+
     data() {
       return {
-        activeIndex: '1'
+        activeIndex: '1',
+        navList: []
       }
     },
+
+    created() {
+      this.navChange(this.$route.name)
+    },
+
+    watch: {
+      $route(to) {
+        this.navChange(to.name)
+      }
+    },
+
     methods: {
+      navChange(name) {
+        switch (name) {
+          case 'Index':
+            this.navList = home
+            break
+          case 'TransferList':
+            this.navList = transfer
+            break
+          default:
+            this.navList = []
+            break
+        }
+      },
+
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
+
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+
+      handleSelect(key) {
+        console.log(key)
       }
     }
   }
