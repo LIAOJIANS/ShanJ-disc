@@ -56,7 +56,7 @@ export default {
           size: 1024 * 1000
         },
         {
-          fileId: 4,
+          fileId: 5,
           type: 'ptf',
           fileName: '人妻',
           size: 1024 * 1000

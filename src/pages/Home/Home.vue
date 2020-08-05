@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <function-column :mode="mode" @patternChange="patternChange" />
+    <function-column
+      :mode="mode"
+      @patternChange="patternChange"
+      @newFileJia="newFileJia"
+    />
+    
     <div class="document-content">
       <div class="content-box" :class="[ mode && 'pl-2 pr-2 pt-1' ]">
         <ul class="dispaly warp ul-radio" v-if="mode">
@@ -83,6 +88,19 @@
         </ul>
       </div>
       <file-button />
+      <Mark :is-show="isShowAlert">
+        <div class="alert p2">
+          <p class="header-title text-center">新建文件夹</p>
+          <div class="alert-body dispaly-center mt-2">
+            <span style="white-space: nowrap">文件夹名：</span>
+            <el-input></el-input>
+          </div>
+          <div class="fun-btn mt-3 dispaly" style="justify-content: space-around">
+            <el-button type="primary">确定</el-button>
+            <el-button class="ml-3" @click="isShowAlert = false">取消</el-button>
+          </div>
+        </div>
+      </Mark>
     </div>
   </div>
 </template>
@@ -90,11 +108,13 @@
 <script>
 import FileButton from './components/FileButton'
 import FunctionColumn from "./components/FunctionColumn";
+import Mark from '../../components/Mark/Mark'
   export default {
     name: "Home",
     components: {
       FileButton,
-      FunctionColumn
+      FunctionColumn,
+      Mark
     },
     data() {
       return {
@@ -125,7 +145,8 @@ import FunctionColumn from "./components/FunctionColumn";
           }
         ],
         isIndeterminate: false,
-        currentlyMoving: 0
+        currentlyMoving: 0,
+        isShowAlert: false
       }
     },
 
@@ -138,6 +159,10 @@ import FunctionColumn from "./components/FunctionColumn";
     methods: {
       patternChange() {
         this.mode = !this.mode
+      },
+
+      newFileJia() {
+        this.isShowAlert = true
       },
 
       handleCheckAllChange(val) {
@@ -192,9 +217,7 @@ import FunctionColumn from "./components/FunctionColumn";
   .content {
     height: 100%;
   }
-
-
-
+  
   .border {
     border-bottom: 1px solid #f0f0f0;
   }
@@ -269,6 +292,15 @@ import FunctionColumn from "./components/FunctionColumn";
     .action-change {
       border: 1px solid #1ED0FF;
       background: #DAF5FF;
+    }
+  }
+  
+  .alert {
+    width: 400px;
+    .header-title {
+      font-size: 16px;
+      color: #666;
+      font-weight: bold;
     }
   }
 

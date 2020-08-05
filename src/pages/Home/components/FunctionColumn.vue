@@ -5,7 +5,7 @@
       <li class="ml-1"><p><i class="el-icon-download"></i>下载</p></li>
       <li class="ml-1"><p><i class="el-icon-share"></i>分享</p></li>
       <li class="ml-1"><p><i class="el-icon-delete"></i>删除</p></li>
-      <li class="ml-1"><p><i class="el-icon-folder-add"></i>新建文件夹</p></li>
+      <li class="ml-1" @click="newFileJia"><p><i class="el-icon-folder-add"></i>新建文件夹</p></li>
     </ul>
     <div class="switch-mode mr-3">
       <i class="el-icon-s-fold" v-if="mode" @click="patternChange"></i>
@@ -24,6 +24,10 @@ export default {
   methods: {
     patternChange() {
       this.$emit('patternChange')
+    },
+
+    newFileJia() {
+      this.$emit('newFileJia')
     }
   }
 }
