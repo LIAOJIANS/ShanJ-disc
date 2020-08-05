@@ -10,16 +10,59 @@
         <el-button size="mini">全部取消</el-button>
       </div>
     </div>
+
+    <div class="dow-list">
+      <download-list :list="list" />
+    </div>
   </div>
 </template>
 
 <script>
 import ProgressList from "../../components/progress/progress";
+import DownloadList from '../../components/DownloadList/DownloadList'
 export default {
   name: "Transfer-List",
 
   components: {
-    ProgressList
+    ProgressList,
+    DownloadList
+  },
+
+  data() {
+    return {
+      list: [
+        {
+          fileId: 1,
+          type: 'zip',
+          fileName: '人妻',
+          size: 1024 * 1000
+        },
+        {
+          fileId: 2,
+          type: 'mp3',
+          fileName: '人妻',
+          size: 1024 * 1000
+        },
+        {
+          fileId: 3,
+          type: 'word',
+          fileName: '人妻',
+          size: 1024 * 1000
+        },
+        {
+          fileId: 4,
+          type: 'avi',
+          fileName: '人妻',
+          size: 1024 * 1000
+        },
+        {
+          fileId: 4,
+          type: 'ptf',
+          fileName: '人妻',
+          size: 1024 * 1000
+        }
+      ]
+    }
   },
 
   created() {
