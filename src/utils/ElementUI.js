@@ -16,7 +16,8 @@ import {
   CheckboxGroup,
   Col,
   Row,
-  Progress
+  Progress,
+  Upload
 } from 'element-ui'
 
 const element = {
@@ -37,6 +38,7 @@ const element = {
     Vue.use(Col)
     Vue.use(Row)
     Vue.use(Progress)
+    Vue.use(Upload)
     Vue.prototype.$message = Message
   }
 }

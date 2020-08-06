@@ -4,8 +4,10 @@
       :mode="mode"
       @patternChange="patternChange"
       @newFileJia="newFileJia"
+      @delFile="delFile"
+      @dowFile="dowFile"
     />
-    
+
     <div class="document-content">
       <div class="content-box" :class="[ mode && 'pl-2 pr-2 pt-1' ]">
         <ul class="dispaly warp ul-radio" v-if="mode">
@@ -58,12 +60,12 @@
              :key="index"
              @mouseenter="fileItemHover(file.id)"
              @mouseleave="currentlyMoving = ''"
-             :class='[(currentlyMoving === file.id || checkedFile.some(item => file.id === item.fileId)) && "hover-bg"]'
+             :class='[(currentlyMoving === file.id || isCurrentFile(file)) && "hover-bg"]'
           >
             <el-row style="width: 100%;">
               <el-col :span="10" >
                 <div class="dispaly-flex">
-                  <el-checkbox @change="selectCurrent(file.id, $event)" :value="checkedFile.some(item => file.id === item.fileId)" >
+                  <el-checkbox @change="selectCurrent(file, $event)" :value="isCurrentFile(file)" >
                     <div class="dispaly-center">
                       <i class="iconfont icon-wenjianjiaguanbi" style="font-size: 14px;"></i>
                       <p class="pl-2">{{ file.filename }}</p>
@@ -92,8 +94,8 @@
         <div class="alert p2">
           <p class="header-title text-center">新建文件夹</p>
           <div class="alert-body dispaly-center mt-2">
-            <span style="white-space: nowrap">文件夹名：</span>
-            <el-input></el-input>
+            <span style="white-space: nowrap; font-size: 14px;">文件夹名：</span>
+            <el-input size="mini"></el-input>
           </div>
           <div class="fun-btn mt-3 dispaly" style="justify-content: space-around">
             <el-button type="primary">确定</el-button>
@@ -109,6 +111,7 @@
 import FileButton from './components/FileButton'
 import FunctionColumn from "./components/FunctionColumn";
 import Mark from '../../components/Mark/Mark'
+import { fileTraversal } from '../../utils/FileTool'
   export default {
     name: "Home",
     components: {
@@ -129,19 +132,21 @@ import Mark from '../../components/Mark/Mark'
             filename: '张三',
             fileUploadTime: '2020-07-27 19:20:10',
             fileSize: 99999,
-
+            dowUrl: 'http://www.baidu.com'
           },
           {
             id: 2,
             filename: '张三',
             fileUploadTime: '2020-07-27 19:20:10',
-            fileSize: 99999
+            fileSize: 99999,
+            dowUrl: 'http://www.baidu.com'
           },
           {
             id: 3,
             filename: '张三',
             fileUploadTime: '2020-07-27 19:20:10',
-            fileSize: 99999
+            fileSize: 99999,
+            dowUrl: 'http://www.baidu.com'
           }
         ],
         isIndeterminate: false,
@@ -157,6 +162,10 @@ import Mark from '../../components/Mark/Mark'
     },
 
     methods: {
+      isCurrentFile(file) {
+        return this.checkedFile.some(item => file.id === item.fileId)
+      },
+
       patternChange() {
         this.mode = !this.mode
       },
@@ -165,31 +174,69 @@ import Mark from '../../components/Mark/Mark'
         this.isShowAlert = true
       },
 
+      delFile() {
+        const { mode , selectMultiple, checkedFile } = this
+        this.subCheck()
+        mode ? this.delSelectMultiple(selectMultiple) : this.delCheckedFile(checkedFile)
+      },
+
+      delSelectMultiple(selectMultiple) {
+        fileTraversal(selectMultiple, item => {
+          console.log(this.fileList[item].id)
+        })
+      },
+
+      delCheckedFile(checkedFile) {
+        fileTraversal(checkedFile, item => {
+          console.log(item.fileId)
+        })
+      },
+
+      dowFile() {
+        const { mode , selectMultiple, checkedFile } = this
+        this.subCheck()
+        mode ? this.dowSelectMultiple(selectMultiple) : this.dowCheckedFile(checkedFile)
+      },
+
+      subCheck() {
+        const { selectMultiple, checkedFile } = this
+        if(selectMultiple.length === 0 && checkedFile.length === 0) { return this.$message({ type: 'error', message: '还没选择文件哟！' }) }
+      },
+
+      dowSelectMultiple(selectMultiple) {
+        fileTraversal(selectMultiple, item => {
+          console.log(this.fileList[item])
+        })
+      },
+
+      dowCheckedFile(checkedFile) {
+        fileTraversal(checkedFile, item => {
+          console.log(item.dowFileUrl)
+        })
+      },
+
       handleCheckAllChange(val) {
         if(val) {
           this.checkAll = true
           this.fileList.forEach(item => {
-            this.hanldSelect(item.id)
+            this.hanldSelect(item)
           })
         } else {
           this.checkedFile = []
         }
       },
 
-      selectCurrent(fileId, e) {
-        if(e) {
-          this.hanldSelect(fileId, e)
-        } else {
-          this.checkedFile.forEach((item, index) => item.fileId === fileId && (this.checkedFile.splice(index, 1)))
-        }
+      selectCurrent(file, e) {
+        e ? this.hanldSelect(file, e) : this.checkedFile.forEach((item, index) => item.fileId === file.id && (this.checkedFile.splice(index, 1)))
       },
 
-      hanldSelect(fileId, e = true) {
+      hanldSelect(file, e = true) {
         const obj = {
-          fileId,
+          fileId: file.id,
+          dowFileUrl: file.dowUrl,
           isSelect: e
         }
-        !(this.checkedFile.some(item => item.fileId === fileId)) && (this.checkedFile = [ ...this.checkedFile, obj ])
+        !(this.checkedFile.some(item => item.fileId === file.id)) && (this.checkedFile = [ ...this.checkedFile, obj ])
       },
 
       fileItemHover(fileId) {
@@ -198,9 +245,7 @@ import Mark from '../../components/Mark/Mark'
 
       keyToSelect(item) {
         const isItem = this.selectMultiple.indexOf(item)
-        if (isItem !== -1) {
-          return this.selectMultiple.splice(isItem, 1)
-        }
+        if (isItem !== -1) { return this.selectMultiple.splice(isItem, 1) }
         this.selectMultiple = [ ...this.selectMultiple, item ]
       },
 
@@ -217,7 +262,7 @@ import Mark from '../../components/Mark/Mark'
   .content {
     height: 100%;
   }
-  
+
   .border {
     border-bottom: 1px solid #f0f0f0;
   }
@@ -294,7 +339,7 @@ import Mark from '../../components/Mark/Mark'
       background: #DAF5FF;
     }
   }
-  
+
   .alert {
     width: 400px;
     .header-title {

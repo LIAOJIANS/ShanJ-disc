@@ -1,0 +1,51 @@
+@mixin border-bottom ($color) {
+  border-bottom: 1px solid $color;
+}
+
+@mixin dispaly-flex() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin dispaly-center() {
+  display: flex;
+  align-items: center;
+}
+
+@mixin dispaly-space() {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin dispaly-content-center() {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin d-c-c() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/*
+  $size : 显示几行
+*/
+@mixin ellipsis-one($size) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $size;
+  overflow: hidden;
+}
+
+@mixin text-center($size, $color) {
+  font-size: $size;
+  color: $color;
+  text-align: center;
+}
