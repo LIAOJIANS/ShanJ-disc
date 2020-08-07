@@ -1,5 +1,9 @@
+
+
 export default {
   TOKEN_KEY: 'TOKEN_KEY',
+
+  FILE_TYPE: ['zip', 'images', 'ptf', 'mp3', 'qita', 'word', 'excel', 'avi'],
 
   transfer: [
     {key: '1', icon: 'el-icon-download', title: '正在下载'},
@@ -13,8 +17,8 @@ export default {
         { key: '2-1', title: '图片' },
         { key: '2-2', title: '视频' },
         { key: '2-3', title: '文档' },
-        { key: '2-4', title: '音乐' },
-        { key: '2-5', title: '种子' },
+        { key: '2-4', title: '表格' },
+        { key: '2-5', title: '音乐' },
         { key: '2-6', title: '其他' }
       ]},
     {key: '3', icon: 'el-icon-lock', title: '隐藏空间'},

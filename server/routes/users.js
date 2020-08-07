@@ -3,11 +3,12 @@ const router = express.Router()
 const { body, validationResult } = require('express-validator')
 const boom = require('boom')
 const jwt = require('jsonwebtoken')
-
+const sendYzm = require('../tool/send')
+const { errorChecking } = require('../tool/public')
 const Result = require('../model/Result')
 const { login, findUser } = require('../servers/user')
 const { md5, decoded } = require('../tool/index')
-const { PWD_SALT, JWT_EXPIRED, PRIVATE_KEY } = require('../tool/constant')
+const { PWD_SALT, JWT_EXPIRED, PRIVATE_KEY, YZM_CODE } = require('../tool/constant')
 
 router.get('/info', (req, res) => {
   const decode = decoded(req)
@@ -45,6 +46,18 @@ router.post('/login',[
         new Result({ token },'登录成功').success(res)
       }
     })
+  }
+})
+
+router.get('/yzm',[
+  body('email').isEmail().withMessage('请输入正确邮箱'),
+], (req, res, next) => {
+  const err = validationResult(req)
+  if(!err.isEmpty()) {
+    const [{ msg }] = err.errors
+    next(boom.badRequest(msg))
+  } else {
+
   }
 })
 

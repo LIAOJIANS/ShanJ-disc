@@ -1,11 +1,12 @@
-const { querySql, queryOne } = require('../db/config')
 
-function login(username, password) {
-    return querySql(`select * from admin_user where username='${ username }' and password='${ password }'`)
+const FileList = require('../db/fileList')
+
+function login() {
+  console.log(FileList)
 }
 
-function findUser(username) {
-  return queryOne(`select * from admin_user where username='${ username }'`)
+function findUser() {
+
 }
 
 module.exports = {

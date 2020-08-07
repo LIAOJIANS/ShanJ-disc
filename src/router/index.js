@@ -50,6 +50,66 @@ export default new Router ({
     },
 
     {
+      path: '/search',
+      component: Index,
+      children: [
+        {
+          path: '/search',
+          component: _import('Search/Search'),
+          name: 'Search',
+          meta: {
+            title: '找资源'
+          }
+        }
+      ]
+    },
+
+    {
+      path: '/hide',
+      component: Index,
+      children: [
+        {
+          path: '/hide',
+          component: _import('Hide/Hide'),
+          name: 'Hide',
+          meta: {
+            title: '隐藏空间'
+          }
+        }
+      ]
+    },
+
+    {
+      path: '/share',
+      component: Index,
+      children: [
+        {
+          path: '/share',
+          component: _import('Share/Share'),
+          name: 'Share',
+          meta: {
+            title: '分享空间'
+          }
+        }
+      ]
+    },
+
+    {
+      path: '/recycle',
+      component: Index,
+      children: [
+        {
+          path: '/recycle',
+          component: _import('RecycleBin/RecycleBin'),
+          name: 'RecycleBin',
+          meta: {
+            title: '回收站'
+          }
+        }
+      ]
+    },
+
+    {
       path: '/login',
       name: 'login',
       component: _import('Login/Login')

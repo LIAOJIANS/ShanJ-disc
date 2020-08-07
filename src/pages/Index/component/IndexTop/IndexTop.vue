@@ -14,8 +14,7 @@
         <el-menu-item index="1">我的网盘</el-menu-item>
         <el-menu-item index="2">传输列表</el-menu-item>
         <el-menu-item index="3">分享空间</el-menu-item>
-        <el-menu-item index="4">功能宝箱</el-menu-item>
-        <el-menu-item index="5">找资源</el-menu-item>
+        <el-menu-item index="4">找资源</el-menu-item>
       </el-menu>
     </div>
     <div class="user-info dispaly-center">
@@ -27,6 +26,7 @@
 </template>
 
 <script>
+  import { goRouter } from '../../../../utils/publicTool'
   const routerBox = ['/', '/transfer']
   export default {
     name: "IndexRight",
@@ -53,21 +53,22 @@
       },
 
       handleSelect(key) {
-        // console.log(key, keyPath);
         switch (key) {
           case '1':
-            this.goRouter('/')
+            goRouter(this, '/')
             break
           case '2':
-            this.goRouter('/transfer')
+            goRouter(this, '/transfer')
+            break
+          case '3':
+            goRouter(this, '/share')
+            break
+          case '4':
+            goRouter(this, '/search')
             break
           default:
             break
         }
-      },
-
-      goRouter(path) {
-        (this.$router.history.current.path !== path) && this.$router.push(path)
       }
     }
   }

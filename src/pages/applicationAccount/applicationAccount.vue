@@ -1,6 +1,6 @@
 <template>
   <div class="app-count-page">
-    <div class="steps-content dispaly-content-center mt-3">
+    <div class="steps-content dispaly-content-center pt-3">
       <el-steps :active="stepCount" style="width: 80%;" finish-status="success">
         <el-step :title="firstStep"></el-step>
         <el-step :title="twoStep"></el-step>
@@ -43,6 +43,9 @@
         </div>
       </el-form>
     </div>
+    <div class="git_hub_login">
+
+    </div>
   </div>
 </template>
 
@@ -65,7 +68,7 @@ export default {
       disableBtn: true
     }
   },
-  
+
   computed: {
     firstStep() {
       return [1, 2, 3].indexOf(this.stepCount) === -1 ? '进行中' : '已完成'
@@ -79,7 +82,7 @@ export default {
       return this.stepCount === 3 ? '已完成' : '进行中'
     }
   },
-  
+
   watch: {
     'aapForm.username' : {
       handler: function (newVal) {
@@ -95,32 +98,40 @@ export default {
 
     'aapForm.email' : {
       handler: function (newVal) {
-        this.btnChage(newVal)
-        if(this.emailCheck(newVal)) this.disableBtn = true
+        this.btnChage(this.emailCheck(newVal))
+        this.emailCheck(newVal) && (this.disableBtn = false)
       }
     }
   },
   methods: {
     btnChage(newVal) {
-      !newVal ? this.disableBtn = true : this.disableBtn = false
+      this.disableBtn = !newVal ? true : false
+      console.log(this.disableBtn)
     },
 
     emailCheck(val) {
       // eslint-disable-next-line no-useless-escape
-      return !/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(val)
+      return /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(val)
     },
 
     submit() {
       this.disableBtn = true
-      if (this.stepCount++ > 2) this.stepCount = 0;
-
+      this.stepCount === 2 && (this.disableBtn = false)
+      if(this.stepCount++ > 2) {
+        this.stepCount = 0
+        this.$router.push('/login')
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+  @import "../../assets/scss/index.scss";
   .email-form {
     width: 40%;
+  }
+  .git_hub_login {
+    @include dispaly-flex()
   }
 </style>

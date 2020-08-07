@@ -1,19 +1,15 @@
-//引入模块
 const nodemailer = require("nodemailer");
 
-//新建对象
 let obj = {
   transporter: nodemailer.createTransport({
-    // 163邮箱 为smtp.163.com
-    host: "smtp.qq.com", // 运营商 qq邮箱 网易//
+    host: "smtp.qq.com",
     port: 465,
     auth: {
-      user: "272781702@qq.com", // 发送方的邮箱
-      pass: "bnyrpbpubydicbbh" // pop3 授权码
+      user: "272781702@qq.com",
+      pass: "bnyrpbpubydicbbh"
     }
   }),
 
-  //传参（对方的mail地址,内容）
   send: function(mail, content) {
     console.log(mail)
     const mailOptions = {
