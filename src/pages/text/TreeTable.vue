@@ -176,7 +176,9 @@ export default {
     isShowFat(item) {
       let i = 0
       if(Array.isArray(item.children) && item.children.length > 0) {
-        i = Array.isArray(item.children[0].children) ? 0 : 1
+        // i = Array.isArray(item.children[0].children) ? 0 : 1
+
+        i = Array.isArray(item.children[0].menutype) ? 0 : 1
       }
       return i
     },
