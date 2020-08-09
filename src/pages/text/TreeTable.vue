@@ -32,14 +32,12 @@
         :label="columns[0].text"
         :width="columns[0].width"
        >
-        <template slot-scope="scope" v-if="Array.isArray(scope.row.children)">
+        <template slot-scope="scope">
           <span
-                v-show="Array.isArray(scope.row.children)"
                 v-for="space in scope.row._level"
                 class="ms-tree-space"
                 :key="space"></span>
           <span class="tree-ctrl"
-                v-show="Array.isArray(scope.row.children)"
                 @click="toggleExpanded(scope.$index)">
             <el-checkbox :indeterminate="scope.row.isIndeterminate"
                          v-model="scope.row.checkAll"
@@ -74,8 +72,7 @@
       <template v-if="isShowCharge">
         <el-table-column label="是否认证"
                          width="140">
-          <template slot-scope="scope"
-                    v-if="scope.row.menuType==2">
+          <template slot-scope="scope" v-if="isShowFat(scope.row)">
             <el-radio v-model="scope.row.isAuth"
                       :label="radio.value"
                       :key="radio.value"
@@ -84,12 +81,11 @@
         </el-table-column>
         <el-table-column label="是否收费"
                          width="140">
-          <template slot-scope="scope"
-                    v-if="scope.row.menuType==2">
+          <template slot-scope="scope" v-if="isShowFat(scope.row)">
             <el-radio v-model="scope.row.isCharge"
                       :label="radio.value"
                       :key="radio.value"
-                      v-for="(radio) in isCreateNewUser">{{radio.label}}</el-radio>
+                      v-for="(radio) in isCreateNewUser">{{ radio.label }}</el-radio>
           </template>
         </el-table-column>
       </template>
@@ -108,7 +104,7 @@
 
 <script>
 import treeToArray from './tool/util'
-
+let white = ["1270564909109714945", "1270565250026938370", "1270565341966082049"]
 export default {
   name: 'treeTable',
   props: {
@@ -152,6 +148,7 @@ export default {
   computed: {
     // 格式化数据源
     formatData: function () {
+      console.log(this.data)
       let tmp
       if (!Array.isArray(this.data)) {
         tmp = [this.data]
@@ -164,6 +161,8 @@ export default {
       func.apply(null, args).forEach(item => {
         item.checkAll = item.isSelect === '1' ? true : false
         Array.isArray(item.children) && item.children.length && (arrs = [...arrs, item])
+        white.includes(item.id) && !Array.isArray(item.children) && (arrs = [...arrs, item])
+        // item.menutype === '1' && (arrs = [...arrs, item])
       })
       return arrs
     }

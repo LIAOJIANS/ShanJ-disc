@@ -73,7 +73,6 @@ export default {
         menus: dataTemp,
         typeId: this.typeObject.id
       }
-      console.log(params)
       this.addMenuTypeData(params)
     },
     /**
@@ -108,19 +107,18 @@ export default {
     deepTraversal (data) {
       let list = []
       const loop = (data) => {
-
         if (data) {
           for (var i in data) { //遍历最上层
             // 选中push
             if (data[i].isSelect == 1) {
-              // console.log(list)
+              console.log({ lable: data[i].label, isAuth: data[i].isAuth, isCharge: data[i].isCharge  })
               list.push({
                 id: data[i].id,
                 isAuth: data[i].isAuth,
                 isCharge: data[i].isCharge
               })
             }
-            if (data[i].children == undefined) {
+            if (!Array.isArray(data[i].children)) {
               // 对像中没有children属性（末级节点遍历）
               if (data[i].checkAll) {
                 // 全选中状态，子类全部push
