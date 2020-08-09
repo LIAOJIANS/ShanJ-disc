@@ -17,7 +17,10 @@ import {
   Col,
   Row,
   Progress,
-  Upload
+  Upload,
+  Table,
+  CheckboxButton,
+  TableColumn
 } from 'element-ui'
 
 const element = {
@@ -38,6 +41,9 @@ const element = {
     Vue.use(Col)
     Vue.use(Row)
     Vue.use(Progress)
+    Vue.use(Table)
+    Vue.use(CheckboxButton)
+    Vue.use(TableColumn)
     Vue.use(Upload)
     Vue.prototype.$message = Message
   }

@@ -65,6 +65,21 @@ export default new Router ({
     },
 
     {
+      path: '/text',
+      component: Index,
+      children: [
+        {
+          path: '/text',
+          component: _import('text/authorize-modal'),
+          name: 'text',
+          meta: {
+            title: '测试'
+          }
+        }
+      ]
+    },
+
+    {
       path: '/hide',
       component: Index,
       children: [
