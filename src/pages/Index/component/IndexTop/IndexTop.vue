@@ -61,6 +61,7 @@
             goRouter(this, '/transfer')
             break
           case '3':
+            // goRouter(this, '/share')
             goRouter(this, '/text')
             break
           case '4':

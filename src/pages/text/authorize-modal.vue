@@ -1,7 +1,7 @@
 <template>
   <div class="app-container" style="overflow-y: auto; height: 89%; position: relative;">
    <div style="position: absolute; top: 0; left: 0; width: 100%;">
-     <tree-table :data="tableData"
+     <tree-table :data="data"
                  :columns="columns"
                  :dialogModel="dialogModel"
                  :table-loading="tableLoading"
@@ -18,12 +18,7 @@ import treeTable from './TreeTable'
 import { getIndustryMenuList } from './tool/1ss'
 export default {
   components: { treeTable },
-  computed: {
-    tableData() {
-      return getIndustryMenuList().data.vOCompanyTypeMenuTree
-    }
-  },
-  
+
   data () {
     return {
       columns: [
@@ -35,7 +30,7 @@ export default {
         },
         {
           text: '功能权限',
-          value: 'label',
+          value: 'sonData',
           option: 'sonData'
         }
       ],
@@ -159,7 +154,9 @@ export default {
      * 2020/04/06
      */
     getIndustryMenuListA () {
-      this.data = getIndustryMenuList()
+      // console.log(getIndustryMenuList().data.vOCompanyTypeMenuTree)
+      this.data = this.companyTypeMenuTree(getIndustryMenuList().data.vOCompanyTypeMenuTree)
+      // console.log(this.data)
       // getIndustryMenuList('"' + this.typeObject.id + '"').then((res) => {
       //   if (res.httpCode == 0) {
       //     // this.$nextTick(() => {
@@ -177,6 +174,7 @@ export default {
       //   }
       // })
     },
+
     /**
      * params：上一次数据的children数据
      * param：上一次数据
@@ -185,7 +183,6 @@ export default {
      */
     companyTypeMenuTree (params, param = []) {
       let arr = []
-      console.log(params)
       for (let i = 0; i < params.length; i++) {
         // 设置checkbox-group选中数组
         if (params[i].isSelect == '1') {
@@ -208,25 +205,7 @@ export default {
           }
         }
         // 末级节点替换children属性为sonData，方便横向显示
-        console.log(params[i].children, params[i].label)
-        if (params[i].children === null) {
-          // console.log(params[i].label)
-          // console.log(params[i].children)
-          if (i == params.length - 1) {
-            param.sonData = param.children
-
-            param.menuType = 2
-            this.$delete(params[i], 'children')
-            this.$delete(param, 'children')
-          } else {
-            param.sonData = []
-          }
-          // 否则会覆盖，导致sonData1= undefined
-          //  break
-          // }
-          // param.sonData = []
-        } else {
-          param.sonData = []
+        if (Array.isArray(params[i].children)) { // 最后一子集
           this.companyTypeMenuTree(params[i].children, params[i])
         }
       }

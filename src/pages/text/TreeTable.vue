@@ -23,56 +23,70 @@
           <span class="tree-ctrl"
                 v-if="iconShow(0,scope.row)"
                 @click="toggleExpanded(scope.$index)">
+            <!-- <i v-if="!scope.row._expanded"
+               class="el-icon-plus"></i>
+            <i v-else
+               class="el-icon-minus"></i> -->
           </span>
           {{scope.$index}}
         </template>
       </el-table-column>
-  
-      <el-table-column
-        :label="columns[0].text"
-        :width="columns[0].width"
-       >
+      <!-- columns不为空时，表格树显示数据 -->
+
+      <el-table-column v-else
+                       v-for="(column, index) in columns"
+                       :key="column.value"
+                       :label="column.text"
+                       :width="column.width">
         <template slot-scope="scope">
-          <span
+          <!-- 级别显示 展开-收缩图标显示 -->
+          <span v-show="index === 0"
                 v-for="space in scope.row._level"
                 class="ms-tree-space"
                 :key="space"></span>
+
           <span class="tree-ctrl"
+                v-if="iconShow(index, scope.row)"
                 @click="toggleExpanded(scope.$index)">
             <el-checkbox :indeterminate="scope.row.isIndeterminate"
                          v-model="scope.row.checkAll"
-                         :disabled="isDisabled(scope.row.isSelect)"
-                         @change="handleCheckAllChange1(scope.$index, scope.row,columns[0].option)">
-              <span >{{ scope.row[columns[0].value ]}}</span>
-            </el-checkbox>
+                         @change="handleCheckAllChange1(scope.$index, scope.row,column.option)">{{scope.row[column.value]}}</el-checkbox>
+            <!-- <i v-if="!scope.row._expanded"
+               class="el-icon-plus"></i>
+            <i v-else
+               class="el-icon-minus"></i> -->
           </span>
+          <el-checkbox v-else-if="index === 0 && scope.row.menuType == 2"
+                       :indeterminate="scope.row.isIndeterminate"
+                       v-model="scope.row.checkAll"
+                       @change="handleCheckAllChange(scope.$index, scope.row,scope.row[column.option])">{{ scope.row[column.value] }}</el-checkbox>
+          <el-checkbox-group v-if="index === 1 && isShowFat(scope.row)"
+                             v-model="scope.row.selectchecked"
+                             @change="handleCheckedCitiesChange(scope.$index, scope.row,scope.row[column.option])">
+            <el-checkbox v-for="(interset) in scope.row[column.value]"
+                         :label="interset.id"
+                         :key="interset.id">{{interset.label}}</el-checkbox>
+          </el-checkbox-group>
+
+          <!-- 单行选中（操作 权限也全选） -->
+
+<!--          {{ scope.row.menuType == 2 }}-->
+          <!-- 父类选中-子类全选 -->
+          <!-- <el-checkbox v-else
+                       :indeterminate="scope.row.isIndeterminate"
+                       v-model="scope.row.checkAll"
+                       :disabled="scope.row.disabled"
+                       @change="handleCheckAllChange1(scope.$index, scope.row,column.option)">456{{scope.row[column.value]}}</el-checkbox> -->
+
         </template>
       </el-table-column>
-  
-      <el-table-column
-        :label="columns[1].text"
-        :width="columns[1].width">
-        <template slot-scope="scope" v-if="isShowFat(scope.row)">
-          <!-- 级别显示 展开-收缩图标显示 -->
-          <span class="tree-ctrl"
-                @click="toggleExpanded(scope.$index)">
-            <el-checkbox :indeterminate="scope.row.isIndeterminate"
-                         v-for="(item, index) in scope.row.children"
-                         v-model="scope.row.checkAll"
-                         :key="index"
-                         :disabled="isDisabled(scope.row.isSelect)"
-                         @change="handleCheckAllChange1(scope.$index, item, columns[1].option)">
-              <span> {{ item[columns[1].value] }}</span>
-            </el-checkbox>
-          </span>
-        </template>
-      </el-table-column>
-      
-      
+
+
       <template v-if="isShowCharge">
         <el-table-column label="是否认证"
                          width="140">
-          <template slot-scope="scope" v-if="isShowFat(scope.row)">
+          <template slot-scope="scope"
+                    v-if="isShowFat(scope.row)">
             <el-radio v-model="scope.row.isAuth"
                       :label="radio.value"
                       :key="radio.value"
@@ -81,11 +95,12 @@
         </el-table-column>
         <el-table-column label="是否收费"
                          width="140">
-          <template slot-scope="scope" v-if="isShowFat(scope.row)">
+          <template slot-scope="scope"
+                    v-if="isShowFat(scope.row)">
             <el-radio v-model="scope.row.isCharge"
                       :label="radio.value"
                       :key="radio.value"
-                      v-for="(radio) in isCreateNewUser">{{ radio.label }}</el-radio>
+                      v-for="(radio) in isCreateNewUser">{{radio.label}}</el-radio>
           </template>
         </el-table-column>
       </template>
@@ -144,11 +159,10 @@ export default {
       isCreateUser: 0
     }
   },
-  
   computed: {
+
     // 格式化数据源
     formatData: function () {
-      console.log(this.data)
       let tmp
       if (!Array.isArray(this.data)) {
         tmp = [this.data]
@@ -159,30 +173,28 @@ export default {
       const args = this.evalArgs ? Array.concat([tmp, this.expandAll], this.evalArgs) : [tmp, this.expandAll]
       let arrs = []
       func.apply(null, args).forEach(item => {
-        item.checkAll = item.isSelect === '1' ? true : false
-        Array.isArray(item.children) && item.children.length && (arrs = [...arrs, item])
-        white.includes(item.id) && !Array.isArray(item.children) && (arrs = [...arrs, item])
-        // item.menutype === '1' && (arrs = [...arrs, item])
+        if(!Array.isArray(item.children)) {
+          item.parent.sonData = item.parent.children
+          !white.includes(item.id) && (item.parent.menuType = 2)
+        }
+        ((Array.isArray(item.children) && item.children.length)
+          || ( white.includes(item.id) && !Array.isArray(item.children)))
+        && (arrs = [...arrs, item])
       })
+      console.log(arrs)
       return arrs
     }
   },
   methods: {
-
-    isDisabled(isSelect) {
-      return isSelect === '1' ? true : false
-    },
-
-    isShowFat(item) {
+    isShowFat (item) {
       let i = 0
       if(Array.isArray(item.children) && item.children.length > 0) {
-        // i = Array.isArray(item.children[0].children) ? 0 : 1
+        i = Array.isArray(item.children[0].children) ? 0 : 1
 
-        i = Array.isArray(item.children[0].menutype) ? 0 : 1
+        // i = Array.isArray(item.children[0].menutype) ? 0 : 1
       }
       return i
     },
-    
     showRow: function (row) {
       const show = (row.row.parent ? (row.row.parent._expanded && row.row.parent._show) : true)
       row.row._show = show
@@ -195,7 +207,8 @@ export default {
     },
     // 图标显示
     iconShow (index, record) {
-      return (index === 0 && record.children && record.children.length > 0)
+      return (index === 0 && record.children && record.children.length > 0 && record.menuType != 2)
+        || (index === 0 && white.includes(record.id))
     },
     /**
      * 末级 - 行选中（sonData功能选中）
@@ -239,7 +252,7 @@ export default {
      * 2020/04/07
      */
     handleCheckedCitiesChange (index, row, opt) {
-      // console.log(index, row, opt)
+      console.log(index, row, opt)
       // console.log('handleCheckedCitiesChange', row)
       row.checkAll = row.selectchecked.length === opt.length
       row.isIndeterminate = row.selectchecked.length > 0 && row.selectchecked.length < opt.length
@@ -253,6 +266,7 @@ export default {
      */
     parentStatus (row) {
       try {
+        console.log(row)
         if (row.parentId !== 0) {
           row.parent['checkAll'] = false
           row.parent['isIndeterminate'] = true
@@ -280,7 +294,7 @@ export default {
      * 2020/04/07
      */
     checkAllChange (index, row, opt) {
-      if (Array.isArray(row.children)) {
+      if (row.children) {
         for (let i = 0; i < row.children.length; i++) {
           let arr = []
           // 全选
@@ -297,6 +311,7 @@ export default {
             } catch (error) {
               // console.log(error)
             }
+
             row.children[i].selectchecked = arr
             row.children[i].checkAll = true
             row.children[i].isIndeterminate = false
@@ -329,57 +344,57 @@ export default {
 }
 </script>
 <style rel="stylesheet/css">
-@keyframes treeTableShow {
-  from {
-    opacity: 0;
+  @keyframes treeTableShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  to {
-    opacity: 1;
+  @-webkit-keyframes treeTableShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-}
-@-webkit-keyframes treeTableShow {
-  from {
-    opacity: 0;
+  .el-table__body {
+    text-align: left;
   }
-  to {
-    opacity: 1;
-  }
-}
-.el-table__body {
-  text-align: left;
-}
 </style>
 
 <style lang="scss" scoped>
-footer {
-  margin-top: 15px;
-}
-$color-blue: #2196f3;
-$space-width: 18px;
-.ms-tree-space {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1;
-  width: $space-width;
-  height: 14px;
-  &::before {
-    content: "";
+  footer {
+    margin-top: 15px;
   }
-}
-.processContainer {
-  width: 100%;
-  height: 100%;
-}
-table td {
-  line-height: 26px;
-}
-.tree-ctrl {
-  position: relative;
-  cursor: pointer;
-  color: $color-blue;
-  margin-left: -$space-width;
-}
+  $color-blue: #2196f3;
+  $space-width: 18px;
+  .ms-tree-space {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    width: $space-width;
+    height: 14px;
+    &::before {
+      content: "";
+    }
+  }
+  .processContainer {
+    width: 100%;
+    height: 100%;
+  }
+  table td {
+    line-height: 26px;
+  }
+  .tree-ctrl {
+    position: relative;
+    cursor: pointer;
+    color: $color-blue;
+    margin-left: -$space-width;
+  }
 </style>
