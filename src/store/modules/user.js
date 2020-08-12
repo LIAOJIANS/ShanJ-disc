@@ -2,7 +2,7 @@ import { login, getUserInfo } from '../../api/user'
 import { setToken, removeToken, getToken } from '../../utils/tokne'
 
 const state = {
-  token: '',
+  token: getToken(),
   userInfo: {}
 }
 
@@ -21,7 +21,6 @@ const actions = {
   },
 
   getInfo({ commit }) {
-    getToken() && commit('SET_TOKEN', getToken())
     getUserInfo().then(res => {
       commit('SET_USER_INFO', res.data)
     })
