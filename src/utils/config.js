@@ -1,7 +1,7 @@
 
 
 export default {
-  TOKEN_KEY: 'TOKEN_KEY',
+  TOKEN_KEY: 'TOKEN',
 
   FILE_TYPE: ['zip', 'images', 'ptf', 'mp3', 'qita', 'word', 'excel', 'avi'],
 

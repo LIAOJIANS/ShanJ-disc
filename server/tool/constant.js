@@ -1,6 +1,6 @@
 const { env } = require('./env')
 
-const UPLOAD_PATH = env === 'dev' ? '/public' : '/root/upload/admin-upload/ebook'
+const UPLOAD_PATH = env === 'dev' ? 'public/upload' : '/root/upload/admin-upload/ebook'
 
 // const UPLOAD_URL = env === 'dev' ? 'http://localhost:3000/Users/sam/upload/admin-upload-ebook' : ''
 
@@ -12,6 +12,5 @@ module.exports = {
   JWT_EXPIRED: 60 * 60, // TOKEN 失效时间
   CODE_TOKEN_ERROR: -2,
   UPLOAD_PATH,
-  YZM_CODE: ''
   // UPLOAD_URL
 }

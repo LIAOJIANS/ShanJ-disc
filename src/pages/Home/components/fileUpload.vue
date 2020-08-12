@@ -8,7 +8,6 @@
         :http-request="uploadSectionFile"
         accept="*"
         :on-remove="onRemove"
-        :on-change="onChange"
         show-file-list>
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">文件上传<em>点击上传</em></div>

@@ -3,9 +3,9 @@ import store from '@/store'
 import { Message } from 'element-ui'
 import { getToken } from './tokne'
 
-const service =axios.create({
+const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout:10000
+  timeout: 10000
 })
 
 service.interceptors.request.use(
@@ -48,3 +48,5 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+export default service

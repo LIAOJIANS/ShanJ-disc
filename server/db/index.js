@@ -1,14 +1,13 @@
 const Sequelize = require('sequelize')
 
 const sqlConfig = {
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "network_disk"
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'network_disk'
 }
 
 console.log('init sequelize...');
-console.log('mysql: ' + JSON.stringify(sqlConfig));
 
 const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
   host: sqlConfig.host,
@@ -22,12 +21,13 @@ const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.pa
 })
 
 exports.sequelize = sequelize
+
 exports.defineModel = (name, attributes) => {
   const attrs = {}
   for(let key in attributes) {
     let val = attributes[key]
     if(typeof val === 'object' && val['type']) {
-      val.allowNull = val.allowNull || false
+      val.allowNull = val.allowNull || true
       attrs[key] = val
     } else {
       attrs[key] = {
@@ -38,14 +38,19 @@ exports.defineModel = (name, attributes) => {
   attrs.version = {
     type: Sequelize.BIGINT
   }
-  attrs.createUser  = {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-  attrs.updateUser = {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
+
+  // attrs.createUser  = {
+  //   type: Sequelize.STRING,
+  //   defaultValue: 'Shan',
+  //   allowNull: false
+  // }
+  //
+  // attrs.updateUser = {
+  //   type: Sequelize.STRING,
+  //   defaultValue: 'Shan',
+  //   allowNull: false
+  // }
+
   return sequelize.define(name, attrs, {
     tableName: name,
     timestamps: true,

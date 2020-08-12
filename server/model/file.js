@@ -2,22 +2,22 @@ const {} = require('../tool/constant')
 
 class File {
 
-  constructor(file, data) {
-    if(data) {
-      this.dataProcessing(data)
-    } else {
-      this.fileProcessing(file)
-    }
+  constructor(file, userId) {
+    this.fileProcessing(file, userId)
   }
 
-  dataProcessing(data) {
 
-  }
-
-  fileProcessing(file) {
+  fileProcessing(file ,) {
     console.log(file)
-  }
 
+    let fileObj = {
+      f_name: file.originalname,
+      f_size: file.size,
+      f_path: file.path,
+      f_type: file.mimetype
+    }
+
+  }
 }
 
 module.exports = File

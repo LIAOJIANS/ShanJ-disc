@@ -1,12 +1,18 @@
 <template>
   <div>
-    分享空间
+    <Upload>
+
+    </Upload>
   </div>
 </template>
 
 <script>
+import Upload from "../../components/Upload/Upload";
 export default {
-  name: "Share"
+  name: "Share",
+  components: {
+    Upload
+  }
 }
 </script>
 

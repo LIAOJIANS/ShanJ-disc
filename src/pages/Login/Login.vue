@@ -40,6 +40,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Login",
   data() {
@@ -59,15 +60,31 @@ export default {
     }
     return {
       loginForm: {
-        username: 'shan',
-        password: '123'
+        username: '',
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'change', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
+      redirect: '',
+      otherQuery: {}
     }
   },
+
+  watch: {
+    $route: {
+      handler: function (route) {
+        const query = route.query
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+        }
+      },
+      immediate: true
+    }
+  },
+
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
@@ -75,11 +92,13 @@ export default {
       this.$refs.password.focus()
     }
   },
+
   methods: {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-        console.log(valid)
-        console.log(this.loginForm)
+        valid && this.$store.dispatch('login', this.loginForm).then(() => {
+          this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+        })
       })
     }
   }

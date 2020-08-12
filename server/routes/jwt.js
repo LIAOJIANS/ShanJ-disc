@@ -7,7 +7,10 @@ const jwtAuth = jwt({
 }).unless({
   path: [
     '/',
-    '/user/login'
+    '/user/login',
+    '/user/sendcode',
+    '/user/register',
+    '/user/user_check'
   ]
 })
 

@@ -1,15 +1,48 @@
-
+import { login, getUserInfo } from '../../api/user'
+import { setToken, removeToken } from '../../utils/tokne'
 
 const state = {
-  token: '321321'
+  token: '',
+  userInfo: {}
 }
 
 const actions = {
+  login({ commit }, options) {
+    return new Promise((resolve, reject) => {
+      login(options).then(res => {
+        const { data } = res
+        commit('SET_TOKEN', data.token)
+        setToken(data.token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
+  getInfo({ commit }) {
+    getUserInfo().then(res => {
+      commit('SET_USER_INFO', res.data)
+    })
+  },
+
+  resetToken({ commit }) {
+    return new Promise(resolve => {
+      commit('SET_TOKEN', '')
+      removeToken()
+      resolve()
+    })
+  }
 }
 
 const mutations = {
+  SET_TOKEN: (state, token) => {
+    state.token = token
+  },
 
+  SET_USER_INFO(state, userInfo) {
+    state.userInfo = userInfo
+  }
 }
 
 export default {

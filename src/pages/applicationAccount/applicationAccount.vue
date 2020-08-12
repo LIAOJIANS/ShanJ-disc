@@ -50,9 +50,16 @@
 </template>
 
 <script>
+import { applicationAccountNumber, sendEmailCode, userCheck } from '@/api/user'
 export default {
   name: "applicationAccount",
   data() {
+    const validateUsername = (rule, value, callback) => {
+      this.uCheck(value, res => {
+        res.msg ? callback(new Error('用户已注册')) : callback()
+      })
+    }
+
     return {
       stepCount: 0,
       aapForm: {
@@ -61,7 +68,7 @@ export default {
         yzm: ''
       },
       appRules: {
-        username: [ { required: true, message: '请输入您的用户名', trigger: 'blur' }],
+        username: [ { required: true, trigger: ['blur', 'change'], validator: validateUsername }],
         email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }, { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
         yzm: [ { required: true, message: '请输入您的验证码', trigger: 'blur' }]
       },
@@ -75,7 +82,7 @@ export default {
     },
 
     twoStep() {
-      return this.stepCount === 1 ? '进行中' : '已完成'
+      return this.stepCount < 2 ? '进行中' : '已完成'
     },
 
     thirdStep() {
@@ -106,7 +113,13 @@ export default {
   methods: {
     btnChage(newVal) {
       this.disableBtn = !newVal ? true : false
-      console.log(this.disableBtn)
+    },
+
+    uCheck(username, cb) {
+      userCheck(username).then(res => {
+        res.msg && (this.disableBtn = true)
+        cb && cb(res)
+      })
     },
 
     emailCheck(val) {
@@ -116,12 +129,54 @@ export default {
 
     submit() {
       this.disableBtn = true
-      this.stepCount === 2 && (this.disableBtn = false)
-      if(this.stepCount++ > 2) {
-        this.stepCount = 0
-        this.$router.push('/login')
+      switch (this.stepCount++) {
+        case 0:
+          console.log(this.aapForm.username)
+          break
+        case 1:
+          this.sendEmailCode()
+          break
+        case 2:
+          this.handleSubmit()
+          break
+        default :
+          this.stepCount = 0
+          this.$router.push('/login')
+          break
       }
+    },
+
+    sendEmailCode() {
+      sendEmailCode(this.aapForm.email).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.msg
+        })
+      }).catch(err => {
+        err && this.$message({
+          type: 'error',
+          message: '未知错误'
+        })
+      })
+    },
+
+    handleSubmit() {
+      this.disableBtn = false
+      applicationAccountNumber(this.aapForm).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.msg
+        })
+      }).catch(() => {
+        this.stepCount = 0
+        this.aapForm = {
+          username: '',
+          email: '',
+          yzm: ''
+        }
+      })
     }
+
   }
 }
 </script>

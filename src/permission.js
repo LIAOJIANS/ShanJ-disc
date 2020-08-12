@@ -1,12 +1,30 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from "./router";
-// import store from './store'
+import { getToken } from "./utils/tokne"
+import store from './store'
 
-// let whiteList = ['/login', '/app-account']
-router.beforeEach((to, form, next) => {
 
-  // to.path && whiteList.indexOf(to.path) === -1 && store.dispatch('addRouter', to)
+let whiteList = ['/login', '/app-account']
+router.beforeEach(async (to, form, next) => {
+  const token = getToken()
+  if(token) {
+    if(to.path == '/login') { return next({ path: '/' }) }
+    if(JSON.stringify(store.getters.userInfo) !== '{}') { return next() }
+    try {
+      await store.dispatch('getInfo')
+      next()
+    } catch (e) {
+      await store.dispatch('resetToken')
+      this.$message({
+        type: 'error',
+        message: 'token失效'
+      })
+      next(`/login?redirect=${ to.path }`)
+    }
+  } else {
+    whiteList.indexOf(to.path) !== -1 ? next() : next(`/login?redirect=${to.path}`)
+  }
 
   NProgress.start()
   next()
