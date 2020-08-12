@@ -8,6 +8,8 @@ import store from './store'
 let whiteList = ['/login', '/app-account']
 router.beforeEach(async (to, form, next) => {
   const token = getToken()
+  NProgress.start()
+  console.log(token)
   if(token) {
     if(to.path == '/login') { return next({ path: '/' }) }
     if(JSON.stringify(store.getters.userInfo) !== '{}') { return next() }
@@ -25,9 +27,7 @@ router.beforeEach(async (to, form, next) => {
   } else {
     whiteList.indexOf(to.path) !== -1 ? next() : next(`/login?redirect=${to.path}`)
   }
-
-  NProgress.start()
-  next()
+  NProgress.done()
 })
 
 router.afterEach(() => {

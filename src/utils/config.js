@@ -1,10 +1,7 @@
 
 
 export default {
-  TOKEN_KEY: 'TOKEN',
-
   FILE_TYPE: ['zip', 'images', 'ptf', 'mp3', 'qita', 'word', 'excel', 'avi'],
-
   transfer: [
     {key: '1', icon: 'el-icon-download', title: '正在下载'},
     {key: '2', icon: 'el-icon-upload2', title: '正在上传'},
