@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { uploadFile } from '@/api/file'
 export default {
   name: "fileUpload",
 
@@ -36,7 +37,10 @@ export default {
     },
 
     uploadSectionFile(param) { // 提交表单
-      console.log(param)
+      uploadFile(param.file).then(res => {
+        this.$store.dispatch('resetProgress')
+        this.$message({ type: 'success', message: res.msg })
+      })
     },
   }
 }

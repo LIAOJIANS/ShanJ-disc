@@ -1,9 +1,9 @@
 <template>
   <div class="home-button dispaly-center">
     <div class="home-button-left pl-1 pr-1" style="width: 198px;">
-      <progress-list :show-text="false" :percentage="50" :width="6" />
+      <progress-list :show-text="false" :percentage="expansionRatio" :width="6" />
       <div class="mt-1 dispaly-flex">
-        <p><span>10G</span> / <span>20G</span></p>
+        <p><span>{{ userInfo.u_used_capacity }} G</span> / <span>{{ userInfo.u_capacity }} G</span></p>
         <p style="color: #00B7FF; cursor: pointer">扩容</p>
       </div>
     </div>
@@ -17,6 +17,16 @@
 import ProgressList from "../../../components/progress/progress";
 export default {
   name: "FileButton",
+
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+
+    expansionRatio() {
+      return this.userInfo.u_used_capacity / this.userInfo.u_capacity * 10 || 0
+    }
+  },
 
   components: {
     ProgressList

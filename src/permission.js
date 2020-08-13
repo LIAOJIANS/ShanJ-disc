@@ -9,7 +9,6 @@ let whiteList = ['/login', '/app-account']
 router.beforeEach(async (to, form, next) => {
   const token = getToken()
   NProgress.start()
-  console.log(token)
   if(token) {
     if(to.path == '/login') { return next({ path: '/' }) }
     if(JSON.stringify(store.getters.userInfo) !== '{}') { return next() }

@@ -3,18 +3,20 @@
     <div class="list dispaly-center pr-2 pl-2 pt-1 pb-1" v-for="(file, index) in list" :key="index">
       <img src="../../assets/images/zip.png" alt="">
       <p class="file-detal ml-3">
-        <span>1321</span>
-        <span class="size"> 0B / 1.93GB </span>
+        <span>{{ file.fileName || file.f_name }}</span>
+        <span class="size" v-if="file.sloaded"> {{ file.sloaded }} / {{ file.fileSize }} </span>
+        <span v-else>{{ file.f_size }}</span>
       </p>
-      <p class="dow-spe">
-        138.6kb/s
+      <p class="dow-spe" v-show="file.uploadSpeed">
+        {{ file.uploadSpeed }}
       </p>
       <div class="fun-btn f1">
-        <span :class="dowClass(file.fileId)" @click="funDow(file)"></span>
-        <span class="el-icon-circle-close" @click="delFile"></span>
+        <span :class="dowClass(file.fileId)" @click="funDow(file)" v-show="!file.f_name"></span>
+        <span class="el-icon-circle-close" @click="delFile" v-show="!file.f_name"></span>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -31,12 +33,12 @@ export default {
       currunIndexArr: []
     }
   },
-  
+
   methods: {
     dowClass(fileId) {
       return (this.currunIndexArr.includes(fileId)) ? 'el-icon-video-pause' : 'el-icon-video-play'
     },
-    
+
     funDow(file) {
       const { currunIndexArr } = this
       currunIndexArr.includes(file.fileId) ?

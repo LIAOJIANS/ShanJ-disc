@@ -4,7 +4,10 @@ const Result = require('../model/Result')
 const multer = require('multer')
 const { UPLOAD_PATH } = require('../tool/constant')
 const fs = require('fs')
-const { uploadFile } = require('../servers/file')
+const { uploadFile, uploadList } = require('../servers/file')
+const { decoded } = require('../tool')
+const { body } = require('express-validator')
+const { errorChecking } = require('../tool/public')
 
 router.post('/upload',
   multer({ dest: `${ UPLOAD_PATH }/users` }).single('file'), (req, res) => {
@@ -21,6 +24,17 @@ router.post('/upload',
     }
 })
 
+router.post('/upload-list',
+  [
+    body('uId').isLength({ min: 0 }).withMessage('用户ID不能为空')
+  ], (req, res, next) => {
+    errorChecking(next, req, () => {
+      const { uId } = req.body
+      uploadList(uId, data => {
+        data.length > 0 ? new Result(data,'获取成功').success(res) :  new Result('暂无数据').fail(res)
+      })
+    })
+})
 
 
 router.post('/dow', (req, res) => {

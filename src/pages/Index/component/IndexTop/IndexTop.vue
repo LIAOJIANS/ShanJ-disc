@@ -18,9 +18,9 @@
       </el-menu>
     </div>
     <div class="user-info dispaly-center">
-      <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-      <p class="ml-1 mr-1">彭海杰</p>
-      <el-button type="text" style="color: red">注销</el-button>
+      <el-avatar :src="userInfo.u_pic"></el-avatar>
+      <p class="ml-1 mr-1">{{ userInfo.u_name }}</p>
+      <el-button type="text" style="color: red" @click="logout">注销</el-button>
     </div>
   </div>
 </template>
@@ -40,6 +40,12 @@
       this.routingLocation(this.$route)
     },
 
+    computed: {
+      userInfo() {
+        return this.$store.getters.userInfo
+      }
+    },
+
     watch: {
       $route(to) {
        this.routingLocation(to)
@@ -49,7 +55,13 @@
     methods: {
 
       routingLocation(router) {
-        this.activeIndex = (routerBox.indexOf(router.path) + 1).toString()
+        this.activeIndex = router.path === '/complete-transfer' ? '2' : (routerBox.indexOf(router.path) + 1).toString()
+      },
+
+      logout() {
+        this.$store.dispatch('resetToken').then(() => {
+          location.reload()
+        })
       },
 
       handleSelect(key) {

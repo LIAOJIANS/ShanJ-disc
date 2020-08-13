@@ -50,6 +50,21 @@ export default new Router ({
     },
 
     {
+      path: '/complete-transfer',
+      component: Index,
+      children: [
+        {
+          path: '/complete-transfer',
+          component: _import('CompleteTransfer/CompleteTransfer'),
+          name: 'CompleteTransfer',
+          meta: {
+            title: '完成传输'
+          }
+        }
+      ]
+    },
+
+    {
       path: '/search',
       component: Index,
       children: [

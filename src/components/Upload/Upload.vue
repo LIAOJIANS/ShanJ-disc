@@ -69,7 +69,6 @@ import axios from 'axios'
         await axios.post('http://localhost:3000/file/upload',formData, {
           onUploadProgress: (progressEvent)=>{
             this.$route.fullPath !== '/' && this.$router.push('/')
-            console.log(progressEvent)
             var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
             this.progressBar = percentCompleted
             let endTime = new Date().getTime();

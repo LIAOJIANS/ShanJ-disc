@@ -21,8 +21,11 @@ const actions = {
   },
 
   getInfo({ commit }) {
-    getUserInfo().then(res => {
-      commit('SET_USER_INFO', res.data)
+    return new Promise(resolve => {
+      getUserInfo().then(res => {
+        commit('SET_USER_INFO', res.data)
+        resolve(res)
+      })
     })
   },
 

@@ -67,6 +67,9 @@
           case 'TransferList':
             this.navList = transfer
             break
+          case 'CompleteTransfer':
+            this.navList = transfer
+            break
           default:
             this.navList = home
             break
@@ -80,13 +83,13 @@
       handleSelect(key) {
         switch (key) {
           case '1':
-            this.isDow() && goRouter(this, '/')
+            this.isDow() ? goRouter(this, '/') : goRouter(this, '/transfer')
             break
           case '2':
-            this.isDow() && this.fileFiltering(key)
+            this.isDow() ? this.fileFiltering(key) : goRouter(this, '/transfer')
             break
           case '3':
-            this.isDow() && goRouter(this, '/hide')
+            this.isDow() ? goRouter(this, '/hide') : goRouter(this, '/complete-transfer')
             break
           case '4':
             goRouter(this, '/share')
@@ -101,7 +104,8 @@
       },
 
       isDow() {
-        return this.$route.fullPath !== '/transfer'
+        const fullPath = this.$route.fullPath
+        return fullPath !== '/transfer' && fullPath !== '/complete-transfer'
       },
 
       fileFiltering(key) {

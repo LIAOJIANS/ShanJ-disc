@@ -40,6 +40,7 @@ service.interceptors.response.use(
     }
   },
   error => {
+    if(error.request.status === 401) { store.dispatch('resetToken') }
     Message({
       message: error || '请求失败',
       duration: 1000,

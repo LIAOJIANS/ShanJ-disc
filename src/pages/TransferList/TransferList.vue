@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div v-if="uploadInfo.length > 0 && uploadInfo[0].fileName">
     <div class="progress-bar dispaly-flex pl-2 pr-2 pb-1 pt-1">
       <span class="pr-1">下载总进度</span>
       <div class="f1">
@@ -10,10 +10,12 @@
         <el-button size="mini">全部取消</el-button>
       </div>
     </div>
-
     <div class="dow-list">
-      <download-list :list="list" />
+      <download-list :list="uploadInfo" />
     </div>
+  </div>
+  <div v-else>
+    暂无上传记录
   </div>
 </template>
 
@@ -28,40 +30,15 @@ export default {
     DownloadList
   },
 
+  computed: {
+    uploadInfo() {
+      return this.$store.getters.uploadInfo
+    }
+  },
+
   data() {
     return {
-      list: [
-        {
-          fileId: 1,
-          type: 'zip',
-          fileName: '人妻',
-          size: 1024 * 1000
-        },
-        {
-          fileId: 2,
-          type: 'mp3',
-          fileName: '人妻',
-          size: 1024 * 1000
-        },
-        {
-          fileId: 3,
-          type: 'word',
-          fileName: '人妻',
-          size: 1024 * 1000
-        },
-        {
-          fileId: 4,
-          type: 'avi',
-          fileName: '人妻',
-          size: 1024 * 1000
-        },
-        {
-          fileId: 5,
-          type: 'ptf',
-          fileName: '人妻',
-          size: 1024 * 1000
-        }
-      ]
+      list: []
     }
   },
 

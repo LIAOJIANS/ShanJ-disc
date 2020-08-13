@@ -29,7 +29,9 @@
         </el-input>
       </el-form-item>
       <div class="pl-2 pr-2">
-        <el-button type="primary" class="login-btn" @click.native.prevent="handleLogin">登录</el-button>
+        <el-button type="primary" class="login-btn"
+                   @click.native.prevent="handleLogin"
+        >登录</el-button>
         <div class="login-alert dispaly-flex mt-2">
           <p>没有账号?<span @click="$router.push('/app-account')">立即申请</span></p>
           <p class="forget-name">忘记密码</p>
@@ -84,7 +86,7 @@ export default {
       immediate: true
     }
   },
-
+  
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
@@ -94,6 +96,13 @@ export default {
   },
 
   methods: {
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        (cur !== 'redirect') && (acc[cur] = query[cur])
+        return acc
+      }, {})
+    },
+
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         valid && this.$store.dispatch('login', this.loginForm).then(() => {

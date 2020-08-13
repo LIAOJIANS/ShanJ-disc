@@ -14,6 +14,14 @@ function findOne(example, option, cb) {
   })
 }
 
+function findAll(example, option, cb) {
+  example.findAll(
+    option
+  ).then(res => {
+    cb && cb(res)
+  })
+}
+
 /*
 * 创建一条新数据
 * @params option 配置对象
@@ -74,5 +82,6 @@ module.exports = {
   create,
   findById,
   update,
-  destroy
+  destroy,
+  findAll
 }
