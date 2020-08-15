@@ -1,11 +1,23 @@
 
 
 export default {
-  FILE_TYPE: ['zip', 'images', 'ptf', 'mp3', 'qita', 'word', 'excel', 'avi'],
+  FILE_TYPE: {
+    zip: require('@/assets/images/zip.png'),
+    rar: require('@/assets/images/zip.png'),
+    png: require('@/assets/images/img.png'),
+    jpg: require('@/assets/images/img.png'),
+    jpeg: require('@/assets/images/img.png'),
+    avi: require('@/assets/images/avi.png'),
+    mp3: require('@/assets/images/mp3.png'),
+    ptf: require('@/assets/images/ppt.png'),
+    word: require('@/assets/images/word.png'),
+    excel: require('@/assets/images/excel.png')
+  },
+
   transfer: [
-    {key: '1', icon: 'el-icon-download', title: '正在下载'},
-    {key: '2', icon: 'el-icon-upload2', title: '正在上传'},
-    {key: '3', icon: 'el-icon-circle-check', title: '完成传输'}
+    { key: '1', icon: 'el-icon-download', title: '正在下载' },
+    { key: '2', icon: 'el-icon-upload2', title: '正在上传' },
+    { key: '3', icon: 'el-icon-circle-check', title: '完成传输' }
   ],
 
   home: [

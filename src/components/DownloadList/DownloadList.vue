@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="list dispaly-center pr-2 pl-2 pt-1 pb-1" v-for="(file, index) in list" :key="index">
-      <img src="../../assets/images/zip.png" alt="">
+      <img :src="fType(file)" alt="">
       <p class="file-detal ml-3">
         <span>{{ file.fileName || file.f_name }}</span>
         <span class="size" v-if="file.sloaded"> {{ file.sloaded }} / {{ file.fileSize }} </span>
-        <span v-else>{{ file.f_size }}</span>
+        <span class="size" v-else>{{ file.f_size }}</span>
       </p>
       <p class="dow-spe" v-show="file.uploadSpeed">
         {{ file.uploadSpeed }}
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { fileType } from '../../utils/publicTool'
 export default {
   name: "DownloadList",
   props: {
@@ -27,7 +28,7 @@ export default {
       type: Array
     }
   },
-
+  
   data() {
     return {
       currunIndexArr: []
@@ -35,6 +36,11 @@ export default {
   },
 
   methods: {
+    fType(file) {
+      const fileName = file.f_name || file.fileName
+      return fileType(fileName)
+    },
+    
     dowClass(fileId) {
       return (this.currunIndexArr.includes(fileId)) ? 'el-icon-video-pause' : 'el-icon-video-play'
     },
