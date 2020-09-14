@@ -5,11 +5,12 @@
       <p class="file-detal ml-3">
         <span>{{ file.fileName || file.f_name }}</span>
         <span class="size" v-if="file.sloaded"> {{ file.sloaded }} / {{ file.fileSize }} </span>
-        <span class="size" v-else>{{ file.f_size }}</span>
+        <span class="size" v-else>{{ fileSize(file) }}</span>
       </p>
-      <p class="dow-spe" v-show="file.uploadSpeed">
+      <p class="dow-spe" v-if="file.uploadSpeed">
         {{ file.uploadSpeed }}
       </p>
+      <p class="el-icon-delete-solid" v-else @click="addhisStory(file.f_id)"></p>
       <div class="fun-btn f1">
         <span :class="dowClass(file.fileId)" @click="funDow(file)" v-show="!file.f_name"></span>
         <span class="el-icon-circle-close" @click="delFile" v-show="!file.f_name"></span>
@@ -21,11 +22,23 @@
 
 <script>
 import { fileType } from '../../utils/publicTool'
+import { uploadHistory } from '@/api/file'
+import { MessageBox } from 'element-ui'
 export default {
   name: "DownloadList",
   props: {
     list: {
       type: Array
+    }
+  },
+  
+  computed: {
+    fileSize() {
+      return (file) => {
+        return file.f_size / (1024 * 1024 * 1024) > 1
+          ? `${(file.f_size / (1024 * 1024 * 1024)).toFixed(2) } GB` :
+          `${ (file.f_size / (1024 * 1024)).toFixed(2) } MB`
+      }
     }
   },
   
@@ -53,7 +66,22 @@ export default {
     },
 
     delFile() {
+      console.log('暂停')
+    },
 
+    addhisStory(fId) {
+      MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        uploadHistory(fId).then(res => {
+          this.$message({ type: 'success', message: res.msg })
+          this.$store.dispatch('getFileList', this.$store.getters.userInfo.u_id)
+        })
+      }).catch(() => {
+        console.log('取消')
+      });
     }
   }
 }
@@ -88,6 +116,11 @@ export default {
     display: block;
     margin-top: 8px;
     font-size: 12px;
+    color: #999;
+  }
+  
+  .el-icon-delete-solid {
+    font-size: 18px;
     color: #999;
   }
 

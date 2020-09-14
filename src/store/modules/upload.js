@@ -1,4 +1,3 @@
-
 const state = {
   initFile: {
     uploadSpeed: null,
@@ -7,7 +6,8 @@ const state = {
     fileName: '',
     fileType: '',
     progressBar: 0,
-    sloaded: 0
+    sloaded: 0,
+    fileState: ''
   },
   uploadList: [
     {
@@ -19,7 +19,9 @@ const state = {
       progressBar: 0,
       sloaded: 0
     }
-  ]
+  ],
+
+  dowList: []
 }
 
 const mutations = {

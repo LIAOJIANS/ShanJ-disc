@@ -1,33 +1,24 @@
 <template>
   <div>
-    <download-list :list="list" />
+    <download-list :list="list" v-if="list.length > 0"/>
+    <no-data v-else />
   </div>
 </template>
 
 <script>
-import { uploadList } from '@/api/file'
 import DownloadList from '@/components/DownloadList/DownloadList'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: "CompleteTransfer",
 
   components: {
-    DownloadList
+    DownloadList,
+    NoData
   },
 
   data() {
     return {
-     list: []
-    }
-  },
-  mounted() {
-    this.loadData()
-  },
-
-  methods: {
-    loadData() {
-      uploadList(this.$store.getters.userInfo.u_id).then(res => {
-        this.list = res.data
-      })
+     list: this.$store.getters.fileList
     }
   }
 }

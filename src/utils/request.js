@@ -5,7 +5,7 @@ import { getToken } from './tokne'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 10000
+  timeout: 1000000
 })
 
 service.interceptors.request.use(
@@ -26,9 +26,9 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
-    const res = response.data
+    const res = response.data || response
     const errMsg = res.msg || '请求失败！'
-    if(res.code !== 0) {
+    if((res.code && res.code !== 200) || (res.status && res.status !== 200)) {
       Message({
         message: errMsg || '请求失败',
         duration: 1000,

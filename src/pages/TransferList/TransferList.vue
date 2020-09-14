@@ -14,20 +14,20 @@
       <download-list :list="uploadInfo" />
     </div>
   </div>
-  <div v-else>
-    暂无上传记录
-  </div>
+  <no-data v-else />
 </template>
 
 <script>
 import ProgressList from "../../components/progress/progress";
 import DownloadList from '../../components/DownloadList/DownloadList'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: "Transfer-List",
 
   components: {
     ProgressList,
-    DownloadList
+    DownloadList,
+    NoData
   },
 
   computed: {

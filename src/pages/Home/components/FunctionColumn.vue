@@ -1,6 +1,7 @@
 <template>
   <div class="function-bar dispaly-center">
     <ul class="dispaly-center pt-1 pb-1 f1">
+      <li class="ml-1" @click="goBackFolder" v-show="currentPath">返回上个文件夹</li>
       <li class="ml-1" @click="uploadFile"><p><i class="el-icon-upload2"></i>上传</p></li>
       <li class="ml-1" @click="dowFile"><p><i class="el-icon-download"></i>下载</p></li>
       <li class="ml-1" @click="shareFile"><p><i class="el-icon-share"></i>分享</p></li>
@@ -27,6 +28,7 @@
 <script>
 import Mark from "../../../components/Mark/Mark";
 import FileUpload from "./fileUpload";
+import { fomartPath } from '@/utils/FileTool'
 export default {
   name: "FunctionColumn",
 
@@ -38,6 +40,12 @@ export default {
   props: {
     mode: Boolean
   },
+  
+  computed: {
+    currentPath() {
+      return this.$store.getters.fileCurrentPath.split('/').length > 1
+    }
+  },
 
   data() {
     return {
@@ -46,6 +54,19 @@ export default {
   },
 
   methods: {
+    goBackFolder() {
+      const storeState = this.$store.getters
+      let folderPath = storeState.fileCurrentPath.split('/')
+      this.currentPath && (folderPath.length = folderPath.length - 1)
+      let path = fomartPath(folderPath)
+      this.$store.dispatch('setBackPath', {
+        path,
+        u_id: storeState.userInfo.u_id
+      }).then(list => {
+        this.$emit('groudList', list)
+      })
+    },
+    
     patternChange() {
       this.$emit('patternChange')
     },

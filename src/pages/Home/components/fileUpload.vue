@@ -37,7 +37,7 @@ export default {
     },
 
     uploadSectionFile(param) { // 提交表单
-      uploadFile(param.file).then(res => {
+      uploadFile(param.file, this.$store.getters.fileCurrentPath).then(res => {
         this.$store.dispatch('resetProgress')
         this.$message({ type: 'success', message: res.msg })
       })

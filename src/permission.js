@@ -14,6 +14,10 @@ router.beforeEach(async (to, form, next) => {
     if(JSON.stringify(store.getters.userInfo) !== '{}') { return next() }
     try {
       await store.dispatch('getInfo')
+      store.dispatch('setCurrentPath', {
+        path: store.getters.userInfo.u_name,
+        u_id: store.getters.userInfo.u_id
+      })
       next()
     } catch (e) {
       await store.dispatch('resetToken')

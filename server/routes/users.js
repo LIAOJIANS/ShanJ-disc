@@ -7,7 +7,8 @@ const { errorChecking } = require('../tool/public')
 const Result = require('../model/Result')
 const { login, usernameIsRegister, register, findUser } = require('../servers/user')
 const { md5, decoded } = require('../tool/index')
-const { PWD_SALT, JWT_EXPIRED, PRIVATE_KEY } = require('../tool/constant')
+const { PWD_SALT, JWT_EXPIRED, PRIVATE_KEY, UPLOAD_PATH } = require('../tool/constant')
+const { mkdirFloader } = require('../tool/file')
 
 let YZM_CODE = ''
 
@@ -61,7 +62,7 @@ router.post('/register', [
 ], (req, res, next) => {
   errorChecking(next, req,() => {
     register(req.body, YZM_CODE,data => {
-      if(!data) { return new Result('验证码不正确或邮箱已注册').fail(res) }
+      if(!data || !mkdirFloader(req.body.username)) { return new Result('验证码不正确或邮箱已注册').fail(res) }
       new Result(data, '申请账号成功，24小时会有管理员回复，请注意邮箱提示').success(res)
     })
   })

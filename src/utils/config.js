@@ -11,7 +11,8 @@ export default {
     mp3: require('@/assets/images/mp3.png'),
     ptf: require('@/assets/images/ppt.png'),
     word: require('@/assets/images/word.png'),
-    excel: require('@/assets/images/excel.png')
+    excel: require('@/assets/images/excel.png'),
+    mp4: require('@/assets/images/mp3.png'),
   },
 
   transfer: [

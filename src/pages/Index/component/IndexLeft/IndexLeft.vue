@@ -84,6 +84,7 @@
         switch (key) {
           case '1':
             this.isDow() ? goRouter(this, '/') : goRouter(this, '/transfer')
+            this.$store.dispatch('getFileList', this.$store.getters.userInfo.u_id)
             break
           case '2':
             this.isDow() ? this.fileFiltering(key) : goRouter(this, '/transfer')
@@ -112,22 +113,22 @@
         goRouter(this, '/')
         switch (key) {
           case '2-1':
-            fileTypeFilter('images')
+            fileTypeFilter(['jpg', 'jpeg', 'png', 'gif'])
             break
           case '2-2':
-            fileTypeFilter('avi')
+            fileTypeFilter(['avi'])
             break
           case '2-3':
-            fileTypeFilter('word')
+            fileTypeFilter(['word'])
             break
           case '2-4':
-            fileTypeFilter('excel')
+            fileTypeFilter(['excel'])
             break
           case '2-5':
-            fileTypeFilter('mp3')
+            fileTypeFilter(['mp3', 'mp4'])
             break
           case '2-6':
-            fileTypeFilter('qita')
+            fileTypeFilter(['rar'])
             break
           default:
             break
