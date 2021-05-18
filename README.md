@@ -1,24 +1,15 @@
-# disc
-
-## Project setup
+### 安装项目
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 启动web项目
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+npm run dev
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### 启用electron
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+npm run dev:exe
+```
