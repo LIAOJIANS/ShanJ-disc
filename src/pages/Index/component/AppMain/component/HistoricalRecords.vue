@@ -1,23 +1,23 @@
 <template>
   <div class="my-disc dispaly-center p1">
     <ul class="dispaly-center mr-2 pr-2">
-      <li class="pl-1" @click="goBack" :class="[ historyLength <= 2 && 'c']"><span class="el-icon-arrow-left"></span></li>
-      <li class="pl-1" @click="$router.go(1)"><span class="el-icon-arrow-right"></span></li>
-      <li class="pl-1" @click="refreshSelectedTag($route)"><span class="el-icon-refresh-right"></span></li>
+      <li class="pl-1" :class="[ historyLength <= 2 && 'c']" @click="goBack"><span class="el-icon-arrow-left" /></li>
+      <li class="pl-1" @click="$router.go(1)"><span class="el-icon-arrow-right" /></li>
+      <li class="pl-1" @click="refreshSelectedTag($route)"><span class="el-icon-refresh-right" /></li>
     </ul>
     <div class="dispaly-center">
       <router-link
-          class="dispaly-center router-link"
-          v-for="tag in visitedViews"
-          ref="tag"
-          :key="tag.path"
-          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-          :class="isActive(tag) ? 'active' : ''"
-          tag="span"
-          @contextmenu.prevent.native="openMenu(tag, $event)"
+        v-for="tag in visitedViews"
+        ref="tag"
+        :key="tag.path"
+        class="dispaly-center router-link"
+        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        :class="isActive(tag) ? 'active' : ''"
+        tag="span"
+        @contextmenu.prevent.native="openMenu(tag, $event)"
       >
         <p>{{ tag.meta.title }}</p>
-        <span class="el-icon-arrow-right pr-1" style="font-size: 14px; padding-left: 5px;"></span>
+        <span class="el-icon-arrow-right pr-1" style="font-size: 14px; padding-left: 5px;" />
       </router-link>
       <ul v-show="visible" :style="{ left: left + 'px', top: top+'px' }" class="contextmenu">
         <li @click="refreshSelectedTag(selectedTag)">重新加载</li>
@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: "HistoricalRecords",
+  name: 'HistoricalRecords',
 
   data() {
     return {

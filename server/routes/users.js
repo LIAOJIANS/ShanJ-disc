@@ -7,7 +7,7 @@ const { errorChecking } = require('../tool/public')
 const Result = require('../model/Result')
 const { login, usernameIsRegister, register, findUser } = require('../servers/user')
 const { md5, decoded } = require('../tool/index')
-const { PWD_SALT, JWT_EXPIRED, PRIVATE_KEY, UPLOAD_PATH } = require('../tool/constant')
+const { PWD_SALT, JWT_EXPIRED, PRIVATE_KEY } = require('../tool/constant')
 const { mkdirFloader } = require('../tool/file')
 
 let YZM_CODE = ''

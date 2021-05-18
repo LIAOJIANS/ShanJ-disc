@@ -1,36 +1,38 @@
 <template>
   <div class="login-page">
-    <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="login-form pt-2 pb-3 pl-2 pr-2"  autocomplete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form pt-2 pb-3 pl-2 pr-2" autocomplete="on" label-position="left">
       <p class="login-title dispaly-content-center pt-1 pb-3">登录</p>
       <el-form-item prop="username">
-        <span class="el-icon-user-solid" style="font-size: 1.2rem; line-height: 47px"></span>
+        <span class="el-icon-user-solid" style="font-size: 1.2rem; line-height: 47px" />
         <el-input
-            ref="username"
-            type="text"
-            name="username"
-            placeholder="用户名"
-            v-model="loginForm.username"
-            clearable
-            autocomplete="on"
-            tabindex="1"
-        ></el-input>
+          ref="username"
+          v-model="loginForm.username"
+          type="text"
+          name="username"
+          placeholder="用户名"
+          clearable
+          autocomplete="on"
+          tabindex="1"
+        />
       </el-form-item>
       <el-form-item prop="password">
-        <span class="el-icon-lock" style="font-size: 1.2rem; line-height: 47px"></span>
+        <span class="el-icon-lock" style="font-size: 1.2rem; line-height: 47px" />
         <el-input
-            ref="password"
-            name="password"
-            placeholder="请输入密码"
-            v-model="loginForm.password"
-            tabindex="2"
-            @keyup.enter.native="handleLogin"
-            autocomplete="on"
-            show-password>
-        </el-input>
+          ref="password"
+          v-model="loginForm.password"
+          name="password"
+          placeholder="请输入密码"
+          tabindex="2"
+          autocomplete="on"
+          show-password
+          @keyup.enter.native="handleLogin"
+        />
       </el-form-item>
       <div class="pl-2 pr-2">
-        <el-button type="primary" class="login-btn"
-                   @click.native.prevent="handleLogin"
+        <el-button
+          type="primary"
+          class="login-btn"
+          @click.native.prevent="handleLogin"
         >登录</el-button>
         <div class="login-alert dispaly-flex mt-2">
           <p>没有账号?<span @click="$router.push('/app-account')">立即申请</span></p>
@@ -44,7 +46,7 @@
 <script>
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!value || value === 6) {
@@ -76,7 +78,7 @@ export default {
 
   watch: {
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         const query = route.query
         if (query) {
           this.redirect = query.redirect
@@ -86,7 +88,7 @@ export default {
       immediate: true
     }
   },
-  
+
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
@@ -116,9 +118,10 @@ export default {
 
 <style lang="scss">
   .login-page {
-    height: 100%;
+    min-height: calc(100vh - 20px);
     width: 100%;
     position: relative;
+
     background: #0f2027;
     background: -webkit-linear-gradient(to right, #0f2027, #203a43, #2c5364);
     background: linear-gradient(to right, #0f2027, #203a43, #2c5364);

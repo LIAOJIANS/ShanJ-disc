@@ -1,29 +1,29 @@
 <template>
   <div>
-    <download-list :list="list" />
+    <download-list :list="list" @getHistory="loadData" />
   </div>
 </template>
 
 <script>
-  import { getHistory } from '@/api/file'
-  import DownloadList from '@/components/DownloadList/DownloadList'
+import { getHistory } from '@/api/file'
+import DownloadList from '@/components/DownloadList/DownloadList'
 export default {
-  name: "RecycleBin",
-  
+  name: 'RecycleBin',
+
+  components: {
+    DownloadList
+  },
+
   data() {
     return {
       list: []
     }
   },
-  
-  components: {
-    DownloadList
-  },
-  
+
   mounted() {
     this.loadData()
   },
-  
+
   methods: {
     loadData() {
       getHistory().then(res => {

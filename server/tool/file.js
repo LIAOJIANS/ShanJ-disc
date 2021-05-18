@@ -13,7 +13,6 @@ function fileList(username) {
   const floaderList = fs.readdirSync(`${ UPLOAD_PATH } / ${ username }`)
 }
 
-
 function getGroupingList(path, cb) {
   let result = []
   list(path, data => {
@@ -31,8 +30,15 @@ function getGroupingList(path, cb) {
   }
 }
 
+function delServerFile(url, cb) {
+  const path = `./${ UPLOAD_PATH }/${ url }`
+  const flag = fs.unlinkSync(path)
+  cb && cb(flag)
+}
+
 module.exports = {
   mkdirFloader,
   fileList,
-  getGroupingList
+  getGroupingList,
+  delServerFile
 }

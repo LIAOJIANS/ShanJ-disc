@@ -1,16 +1,16 @@
 <template>
   <div id="app">
+    <func-tool />
     <router-view />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'App',
-    components: {
-
-    }
-  }
+import FuncTool from '@/components/funcTool/funcTool'
+export default {
+  name: 'App',
+  components: { FuncTool }
+}
 </script>
 
 <style>

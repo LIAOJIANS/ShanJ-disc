@@ -1,23 +1,23 @@
 <template>
   <div class="function-bar dispaly-center">
     <ul class="dispaly-center pt-1 pb-1 f1">
-      <li class="ml-1" @click="goBackFolder" v-show="currentPath">返回上个文件夹</li>
-      <li class="ml-1" @click="uploadFile"><p><i class="el-icon-upload2"></i>上传</p></li>
-      <li class="ml-1" @click="dowFile"><p><i class="el-icon-download"></i>下载</p></li>
-      <li class="ml-1" @click="shareFile"><p><i class="el-icon-share"></i>分享</p></li>
-      <li class="ml-1" @click="delFile"><p><i class="el-icon-delete"></i>删除</p></li>
-      <li class="ml-1" @click="newFileJia"><p><i class="el-icon-folder-add"></i>新建文件夹</p></li>
+      <li v-show="currentPath" class="ml-1" @click="goBackFolder">返回上个文件夹</li>
+      <li class="ml-1" @click="uploadFile"><p><i class="el-icon-upload2" />上传</p></li>
+      <li class="ml-1" @click="dowFile"><p><i class="el-icon-download" />下载</p></li>
+      <li class="ml-1" @click="shareFile"><p><i class="el-icon-share" />分享</p></li>
+      <li class="ml-1" @click="delFile"><p><i class="el-icon-delete" />删除</p></li>
+      <li class="ml-1" @click="newFileJia"><p><i class="el-icon-folder-add" />新建文件夹</p></li>
     </ul>
     <div class="switch-mode mr-3">
-      <i class="el-icon-s-fold" v-if="mode" @click="patternChange"></i>
-      <i class="el-icon-menu" v-else @click="patternChange"></i>
+      <i v-if="mode" class="el-icon-s-fold" @click="patternChange" />
+      <i v-else class="el-icon-menu" @click="patternChange" />
     </div>
 
     <Mark :is-show="isShow">
       <div class="upload p2">
         <p class="header-title mb-2">
           <span class="f1">文件上传</span>
-          <span class="el-icon-close" @click="isShow = false"></span>
+          <span class="el-icon-close" @click="isShow = false" />
         </p>
         <file-upload />
       </div>
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import Mark from "../../../components/Mark/Mark";
-import FileUpload from "./fileUpload";
+import Mark from '../../../components/Mark/Mark'
+import FileUpload from './fileUpload'
 import { fomartPath } from '@/utils/FileTool'
 export default {
-  name: "FunctionColumn",
+  name: 'FunctionColumn',
 
   components: {
     Mark,
@@ -40,12 +40,6 @@ export default {
   props: {
     mode: Boolean
   },
-  
-  computed: {
-    currentPath() {
-      return this.$store.getters.fileCurrentPath.split('/').length > 1
-    }
-  },
 
   data() {
     return {
@@ -53,12 +47,18 @@ export default {
     }
   },
 
+  computed: {
+    currentPath() {
+      return this.$store.getters.fileCurrentPath.split('/').length > 1
+    }
+  },
+
   methods: {
     goBackFolder() {
       const storeState = this.$store.getters
-      let folderPath = storeState.fileCurrentPath.split('/')
+      const folderPath = storeState.fileCurrentPath.split('/')
       this.currentPath && (folderPath.length = folderPath.length - 1)
-      let path = fomartPath(folderPath)
+      const path = fomartPath(folderPath)
       this.$store.dispatch('setBackPath', {
         path,
         u_id: storeState.userInfo.u_id
@@ -66,7 +66,7 @@ export default {
         this.$emit('groudList', list)
       })
     },
-    
+
     patternChange() {
       this.$emit('patternChange')
     },

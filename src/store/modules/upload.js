@@ -26,11 +26,11 @@ const state = {
 
 const mutations = {
   ON_UPLOAD_PROGRESS: (state, options) => {
-    if(state.uploadList.length > 1) {
+    if (state.uploadList.length > 1) {
       state.uploadList.forEach((item, index) => {
-        item.fileName === options.fileName ?
-          state.uploadList[index] = { ...state.uploadList[index], ...options } :
-          state.uploadList = [ ...state.uploadList, options ]
+        item.fileName === options.fileName
+          ? state.uploadList[index] = { ...state.uploadList[index], ...options }
+          : state.uploadList = [...state.uploadList, options]
       })
     } else {
       state.uploadList = [options]
@@ -44,13 +44,12 @@ const mutations = {
   }
 }
 
-
 const actions = {
-  onUploadProgress({commit}, options) {
+  onUploadProgress({ commit }, options) {
     commit('ON_UPLOAD_PROGRESS', options)
   },
 
-  resetProgress({commit}) {
+  resetProgress({ commit }) {
     commit('RESET_PROGRESS')
   }
 }

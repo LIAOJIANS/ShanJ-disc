@@ -6,7 +6,7 @@ Vue.use(Router)
 
 import Index from '@/pages/Index/Index'
 
-export default new Router ({
+export default new Router({
   routes: [
     {
       path: '/redirect',

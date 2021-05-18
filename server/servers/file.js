@@ -1,7 +1,7 @@
 const FileList = require('../db/fileList')
-
 const UserList = require('../db/user_list')
-const { findOne, create, findAll, update } = require('./dbOperation')
+const { findOne, create, findAll, update, destroy } = require('./dbOperation')
+const { delServerFile } = require('../tool/file')
 
 async function uploadFile(options, cb) {
   const { file, username, fileDow, groupingName } = options
@@ -53,10 +53,20 @@ function historyList(options, cb) {
   })
 }
 
+function handleDelFile(url, f_id, cb) {
+  destroy(FileList, { where: { f_id } }, data => {
+    console.log(data)
+    // if(!data) { return cb && cb(false) }
+    delServerFile(url, flag => {
+      flag && cb && cb('删除成功')
+    })
+  })
+}
 
 module.exports = {
   uploadFile,
   uploadList,
   historyFile,
-  historyList
+  historyList,
+  handleDelFile
 }

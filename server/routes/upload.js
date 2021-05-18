@@ -10,26 +10,26 @@ const { body } = require('express-validator')
 const { errorChecking } = require('../tool/public')
 
 router.post('/upload',
-  multer({ dest: `${ UPLOAD_PATH }` }).single('file'), (req, res) => {
+  multer({ dest: `${UPLOAD_PATH}` }).single('file'), (req, res) => {
     const decode = decoded(req)
-    if(decode && decode.username) {
+    if (decode && decode.username) {
       const { groupingName } = req.body
-      const path = `${ UPLOAD_PATH }/${ groupingName }/${ req.file.originalname }`
+      const path = `${UPLOAD_PATH}/${groupingName}/${req.file.originalname}`
       const obj = {
         file: req.file,
         username: decode.username,
         fileDow: path,
         groupingName
       }
-      fs.rename(`${ req.file.path }`, path, function (err) { // 剪切刚刚上传的文件至分组
+      fs.rename(`${req.file.path}`, path, function(err) { // 剪切刚刚上传的文件至分组
         console.log(err)
       })
       uploadFile(obj, data => {
-        if(!data) return new Result('上传失败').fail(res)
+        if (!data) return new Result('上传失败').fail(res)
         new Result('上传成功').success(res)
       })
     }
-})
+  })
 
 router.post('/upload-list',
   [
@@ -37,12 +37,11 @@ router.post('/upload-list',
   ], (req, res, next) => {
     errorChecking(next, req, () => {
       const { uId, groupingName } = req.body
-      uploadList(uId, groupingName,data => {
-        data.length > 0 ? new Result(data,'获取成功').success(res) :  new Result('暂无数据').fail(res)
+      uploadList(uId, groupingName, data => {
+        data.length > 0 ? new Result(data, '获取成功').success(res) : new Result('暂无数据').fail(res)
       })
     })
-})
-
+  })
 
 router.post('/del-history', [
   body('file-id').isLength({ min: 0 }).withMessage('文件id不能为空')
@@ -50,7 +49,7 @@ router.post('/del-history', [
   errorChecking(next, req, () => {
     const { f_id } = req.body
     historyFile({ f_id }, data => {
-      data.length > 0 ? new Result(data,'删除成功').success(res) :  new Result('删除失败').fail(res)
+      data.length > 0 ? new Result(data, '删除成功').success(res) : new Result('删除失败').fail(res)
     })
   })
 })
@@ -62,7 +61,7 @@ router.post('/dow_file', [
     const realPath = `./${req.body.dow_url}`
     res.writeHead(200, {
       'Content-Type': 'application/octet-stream',
-      'Content-Disposition': 'attachment; filename=' + encodeURI(`${realPath.split('/')[realPath.split('/').length - 1]}`),
+      'Content-Disposition': 'attachment; filename=' + encodeURI(`${realPath.split('/')[realPath.split('/').length - 1]}`)
     })
     const readStream = fs.createReadStream(realPath)
     readStream.on('data', (chunk) => {
@@ -77,7 +76,7 @@ router.post('/dow_file', [
 router.get('/history', (req, res) => {
   const decode = decoded(req)
   historyList({ u_name: decode.username }, data => {
-    data.length > 0 ? new Result(data,'获取成功').success(res) :  new Result('暂无数据').fail(res)
+    data.length > 0 ? new Result(data, '获取成功').success(res) : new Result('暂无数据').fail(res)
   })
 })
 

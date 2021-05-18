@@ -14,9 +14,13 @@
 </template>
 
 <script>
-import ProgressList from "../../../components/progress/progress";
+import ProgressList from '../../../components/progress/progress'
 export default {
-  name: "FileButton",
+  name: 'FileButton',
+
+  components: {
+    ProgressList
+  },
 
   computed: {
     userInfo() {
@@ -26,10 +30,6 @@ export default {
     expansionRatio() {
       return this.userInfo.u_used_capacity / this.userInfo.u_capacity * 10 || 0
     }
-  },
-
-  components: {
-    ProgressList
   }
 }
 </script>

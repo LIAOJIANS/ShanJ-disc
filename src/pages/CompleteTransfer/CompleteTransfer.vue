@@ -1,6 +1,6 @@
 <template>
   <div>
-    <download-list :list="list" v-if="list.length > 0"/>
+    <download-list :list="list" v-if="list.length > 0" />
     <no-data v-else />
   </div>
 </template>

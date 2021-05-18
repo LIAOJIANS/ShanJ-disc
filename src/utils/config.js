@@ -13,6 +13,7 @@ export default {
     word: require('@/assets/images/word.png'),
     excel: require('@/assets/images/excel.png'),
     mp4: require('@/assets/images/mp3.png'),
+    qita: require('@/assets/images/qita.png')
   },
 
   transfer: [

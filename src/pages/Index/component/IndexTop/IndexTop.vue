@@ -1,87 +1,96 @@
 <template>
-  <div class="index-right dispaly-center">
-    <div class="logo">
-      <span>logo</span>
-    </div>
-    <div class="muen f1 ml-3">
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-        background-color="#EEF0F6"
-        active-text-color="#409eff">
-        <el-menu-item index="1">我的网盘</el-menu-item>
-        <el-menu-item index="2">传输列表</el-menu-item>
-        <el-menu-item index="3">分享空间</el-menu-item>
-        <el-menu-item index="4">找资源</el-menu-item>
-      </el-menu>
-    </div>
-    <div class="user-info dispaly-center">
-      <el-avatar :src="userInfo.u_pic"></el-avatar>
-      <p class="ml-1 mr-1">{{ userInfo.u_name }}</p>
-      <el-button type="text" style="color: red" @click="logout">注销</el-button>
+  <div>
+    <div class="index-right">
+      <func-tool />
+      <div class="dispaly-center">
+        <div class="logo">
+          <span>logo</span>
+        </div>
+        <div class="muen f1 ml-3">
+          <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            background-color="#EEF0F6"
+            active-text-color="#409eff"
+            @select="handleSelect"
+          >
+            <el-menu-item index="1">我的网盘</el-menu-item>
+            <el-menu-item index="2">传输列表</el-menu-item>
+            <el-menu-item index="3">分享空间</el-menu-item>
+            <el-menu-item index="4">找资源</el-menu-item>
+          </el-menu>
+        </div>
+        <div class="user-info dispaly-center">
+          <el-avatar :src="userInfo.u_pic" />
+          <p class="ml-1 mr-1">{{ userInfo.u_name }}</p>
+          <el-button type="text" style="color: red" @click="logout">注销</el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import { goRouter } from '../../../../utils/publicTool'
-  const routerBox = ['/', '/transfer']
-  export default {
-    name: "IndexRight",
-    data() {
-      return {
-        activeIndex: '1'
-      }
+import { goRouter } from '../../../../utils/publicTool'
+import FuncTool from '@/components/funcTool/funcTool'
+const routerBox = ['/', '/transfer']
+export default {
+  name: 'IndexRight',
+
+  components: { FuncTool },
+
+  data() {
+    return {
+      activeIndex: '1'
+    }
+  },
+
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo
+    }
+  },
+
+  watch: {
+    $route(to) {
+      this.routingLocation(to)
+    }
+  },
+
+  mounted() {
+    this.routingLocation(this.$route)
+  },
+
+  methods: {
+    routingLocation(router) {
+      this.activeIndex = router.path === '/complete-transfer' ? '2' : (routerBox.indexOf(router.path) + 1).toString()
     },
 
-    mounted() {
-      this.routingLocation(this.$route)
+    logout() {
+      this.$store.dispatch('resetToken').then(() => {
+        location.reload()
+      })
     },
 
-    computed: {
-      userInfo() {
-        return this.$store.getters.userInfo
-      }
-    },
-
-    watch: {
-      $route(to) {
-       this.routingLocation(to)
-      }
-    },
-
-    methods: {
-
-      routingLocation(router) {
-        this.activeIndex = router.path === '/complete-transfer' ? '2' : (routerBox.indexOf(router.path) + 1).toString()
-      },
-
-      logout() {
-        this.$store.dispatch('resetToken').then(() => {
-          location.reload()
-        })
-      },
-
-      handleSelect(key) {
-        switch (key) {
-          case '1':
-            goRouter(this, '/')
-            break
-          case '2':
-            goRouter(this, '/transfer')
-            break
-          case '3':
-            goRouter(this, '/share')
-            break
-          case '4':
-            goRouter(this, '/search')
-            break
-        }
+    handleSelect(key) {
+      switch (key) {
+        case '1':
+          goRouter(this, '/')
+          break
+        case '2':
+          goRouter(this, '/transfer')
+          break
+        case '3':
+          goRouter(this, '/share')
+          break
+        case '4':
+          goRouter(this, '/search')
+          break
       }
     }
   }
+}
 </script>
 
 <style lang="scss">
@@ -98,7 +107,7 @@
 }
 .logo {
   position: relative;
-  height: 80px;
+  height: 50px;
   width: 200px;
   span {
     position: absolute;

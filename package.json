@@ -2,9 +2,12 @@
   "name": "disc",
   "version": "0.1.0",
   "private": true,
+  "main": "./src/electron/index.js",
   "scripts": {
-    "start": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
+    "dev:exe": "./node_modules/.bin/electron ./",
     "build": "vue-cli-service build",
+    "build:exe": "./node_modules/.bin/electron-builder build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -21,14 +24,20 @@
     "vuex": "^3.5.1"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.11.5",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^7.1.5",
     "babel-plugin-component": "^1.1.1",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "electron": "^12.0.2",
+    "electron-builder": "^22.8.1"
   },
   "eslintConfig": {
     "root": true,
@@ -47,6 +56,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not dead"
+    "not ie < 11"
   ]
 }

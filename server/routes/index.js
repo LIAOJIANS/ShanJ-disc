@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const boom = require('boom')
 const userRouter = require('./users')
 const uploadRouter = require('./upload')
@@ -9,8 +9,8 @@ const Result = require('../model/Result')
 const router = express.Router()
 router.use(jwtAuth)
 
-router.use('/user',userRouter)
-router.use('/file',uploadRouter)
+router.use('/user', userRouter)
+router.use('/file', uploadRouter)
 router.use('/folder', fileRouter)
 
 router.use((req, res, next) => {
@@ -18,7 +18,7 @@ router.use((req, res, next) => {
 })
 
 router.use((err, req, res, next) => {
-  if( err.name && err.name === 'UnauthorizedError') { // 如果token验证失败
+  if (err.name && err.name === 'UnauthorizedError') { // 如果token验证失败
     const { status = 401, message } = err
     // 清楚用户cooick
     new Result(null, 'token验证失败', {
@@ -35,4 +35,4 @@ router.use((err, req, res, next) => {
     }).tokenError(res.status(statusCode))
   }
 })
-module.exports = router;
+module.exports = router

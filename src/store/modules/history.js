@@ -5,20 +5,20 @@ const state = {
 }
 
 const actions = {
-  addRouter({dispatch}, router) {
+  addRouter({ dispatch }, router) {
     dispatch('setHistory', router)
     dispatch('addCachedView', router)
   },
 
   delRouter({ dispatch, state }, router) {
-    return new Promise(((resolve) => {
+    return new Promise((resolve) => {
       dispatch('delCachedView', router)
       dispatch('delHistory', router)
       resolve({
         historyList: [...state.historyList],
         cachedViews: [...state.cachedViews]
       })
-    }))
+    })
   },
 
   setHistory({ commit }, router) {
@@ -69,21 +69,20 @@ const actions = {
 
 const mutations = {
   SET_HISTORY: (state, router) => {
-    !state.historyList.some(r => r.path === router.path) && (state.historyList = [ ...state.historyList, router ])
+    !state.historyList.some(r => r.path === router.path) && (state.historyList = [...state.historyList, router])
   },
 
   DEL_HISTORY: (state, router) => {
-
     state.historyList.forEach((v, i) => {
       console.log(1)
-      if(v.path === router.path) {
+      if (v.path === router.path) {
         return state.historyList.splice(i, 1)
       }
     })
   },
 
   ADD_CACHED_VIEW: (state, router) => {
-    !state.cachedViews.includes(router.name) && (state.cachedViews = [ ...state.cachedViews, router.name ])
+    !state.cachedViews.includes(router.name) && (state.cachedViews = [...state.cachedViews, router.name])
   },
 
   DEL_CACHED_VIEW: (state, router) => {
@@ -92,7 +91,7 @@ const mutations = {
   },
 
   DEL_OTHER_HISTORY_LIST: (state, router) => {
-    state.historyList = state.historyList.filter(r => ( r.path === router.path ))
+    state.historyList = state.historyList.filter(r => (r.path === router.path))
   },
 
   DEL_OTHER_CACHED_VIEW: (state, router) => {
@@ -106,7 +105,6 @@ const mutations = {
   }
 
 }
-
 
 export default {
   state,

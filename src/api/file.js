@@ -7,29 +7,29 @@ export function uploadFile(file, path) {
   const formData = new FormData()
   formData.append('file', file)
   formData.append('groupingName', path)
-  let stime = new Date().getTime();
+  let stime = new Date().getTime()
   let sloaded = 0
   return request({
     url: '/file/upload',
-    headers: {"Content-Type": "multipart/form-data"},
+    headers: { 'Content-Type': 'multipart/form-data' },
     method: 'post',
     data: formData,
     onUploadProgress: progressEvent => {
       router.currentRoute.fullPath !== '/transfer' && router.push('/transfer')
-      let percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-      let endTime = new Date().getTime()
-      let dTime =(endTime - stime) / 1000
-      let dloaded = progressEvent.loaded - sloaded
+      const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      const endTime = new Date().getTime()
+      const dTime = (endTime - stime) / 1000
+      const dloaded = progressEvent.loaded - sloaded
       let speed = dloaded / dTime
       stime = new Date().getTime()
       sloaded = progressEvent.loaded
-      let unit = "b/s"
+      let unit = 'b/s'
       if (speed / 1024 > 1) {
-        unit = "kb/s"
+        unit = 'kb/s'
         speed = speed / 1024
       }
       if (speed / 1024 > 1) {
-        unit = "mb/s"
+        unit = 'mb/s'
         speed = speed / 1024
       }
       store.dispatch('onUploadProgress',
@@ -96,6 +96,17 @@ export function groupingList(groupName) {
   })
 }
 
+export function delFile(cur_url, file_id) {
+  return request({
+    url: '/folder/del-file',
+    method: 'post',
+    data: {
+      cur_url,
+      file_id
+    }
+  })
+}
+
 export function dowFile(file) {
   console.log(file)
   const { f_name, f_size } = file
@@ -109,20 +120,20 @@ export function dowFile(file) {
     },
     onDownloadProgress: progressEvent => {
       router.currentRoute.fullPath !== '/transfer' && router.push('/transfer')
-      let percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-      let endTime = new Date().getTime()
-      let dTime =(endTime - stime) / 1000
-      let dloaded = progressEvent.loaded - sloaded
+      const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+      const endTime = new Date().getTime()
+      const dTime = (endTime - stime) / 1000
+      const dloaded = progressEvent.loaded - sloaded
       let speed = dloaded / dTime
       stime = new Date().getTime()
       sloaded = progressEvent.loaded
-      let unit = "b/s"
+      let unit = 'b/s'
       if (speed / 1024 > 1) {
-        unit = "kb/s"
+        unit = 'kb/s'
         speed = speed / 1024
       }
       if (speed / 1024 > 1) {
-        unit = "mb/s"
+        unit = 'mb/s'
         speed = speed / 1024
       }
       store.dispatch('onUploadProgress',
