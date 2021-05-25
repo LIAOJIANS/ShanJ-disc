@@ -70,25 +70,26 @@ new Vue({
     },
     // 下载文件
     addDownFile(obj) {
-      const index = this.downFiles.findIndex(item => item.id === obj.id)
+      const index = this.downFiles.findIndex(item => item.f_id === obj.f_id)
       if (index === -1) {
         obj.progress = 0
         obj.speedBytes = 0
         obj.state = 'wait'
         obj.done = 'downing'
         this.downFiles.splice(0, 0, obj)
+        console.log(obj)
         downFile(obj)
       }
     },
     // 更新状态
     updateDownState(data) {
       this.$nextTick(() => {
-        const { id, done, progress } = data
-        const index = this.downFiles.findIndex(item => item.id === id)
+        const { f_id, done, progress } = data
+        const index = this.downFiles.findIndex(item => item.f_id === f_id)
         if (done === 'end') {
           if (progress === 100) {
-            const { id, path, resolution, size, small, url } = data
-            this.downDoneFiles.splice(0, 0, { id, path, resolution, size, small, url, downloadtime: getTime() })
+            const { f_id, path } = data
+            this.downDoneFiles.splice(0, 0, { f_id, path, downloadtime: getTime() })
             if (index > -1) this.downFiles.splice(index, 1)
           }
         } else {
@@ -99,12 +100,12 @@ new Vue({
     // 删除下载列表
     removeDownFile(id, downing) {
       if (downing) {
-        const index = this.downFiles.findIndex(item => item.id === id)
+        const index = this.downFiles.findIndex(item => item.f_id === id)
         if (index > -1) {
           this.downFiles.splice(index, 1)
         }
       } else {
-        const index = this.downDoneFiles.findIndex(item => item.id === id)
+        const index = this.downDoneFiles.findIndex(item => item.f_id === id)
         if (index > -1) {
           this.downDoneFiles.splice(index, 1)
         }

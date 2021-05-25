@@ -1,17 +1,17 @@
 <template>
   <div>
     <el-progress
-        :show-text="text"
-        :text-inside="inside"
-        :stroke-width="width"
-        :percentage="percentage"
-    ></el-progress>
+      :show-text="text"
+      :text-inside="inside"
+      :stroke-width="width"
+      :percentage="percentage"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: "progress-list",
+  name: 'ProgressList',
 
   props: {
     text: {

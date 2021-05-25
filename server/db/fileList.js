@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 const db = require('./index')
 
 module.exports = db.defineModel('file_list', {

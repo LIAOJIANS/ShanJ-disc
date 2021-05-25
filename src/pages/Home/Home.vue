@@ -126,7 +126,7 @@ import FileButton from './components/FileButton'
 import FunctionColumn from './components/FunctionColumn'
 import Mark from '../../components/Mark/Mark'
 import { fileTraversal, dowUrl } from '../../utils/FileTool'
-import { fileType } from '../../utils/publicTool'
+import { fileType, goRouter } from '../../utils/publicTool'
 import { time } from 'js-hodgepodge'
 import NoData from '@/components/NoData/NoData'
 import { createFloader, uploadHistory } from '../../api/file'
@@ -147,7 +147,7 @@ export default {
       mode: false, // true 为圆格模式，false 列表模式
       checkAll: false,
       checkedFile: [],
-      fileList: [],
+      fileList: this.$store.getters.fileList,
       isIndeterminate: false,
       currentlyMoving: 0,
       isShowAlert: false,
@@ -183,22 +183,22 @@ export default {
       this.checkAll = this.fileList.length === this.checkedFile.length
     },
 
-    '$store.getters.fileList': function() {
-      this.fileList = this.$store.getters.fileList
+    '$store.getters.fileList': function(val) {
+      this.fileList = val
     }
   },
 
   mounted() {
-    this.$store.dispatch('getGroupList').then(list => {
-      this.grouping = list
-    })
-
-    this.$store.dispatch('getFileList', this.$store.getters.userInfo.u_id).then(data => {
-      this.fileList = data
-    })
+    this.fetchData()
   },
 
   methods: {
+    fetchData() {
+      this.$store.dispatch('getGroupList').then(list => {
+        this.grouping = list
+      })
+    },
+
     groudList(data) {
       this.grouping = data
     },
@@ -290,26 +290,8 @@ export default {
       file.f_dow_url = dowUrl(file.f_dow_url)
 
       this.$root.addDownFile(file)
-      // this.$store.dispatch('resetProgress')
 
-      this.$router.push('/transfer')
-      // dowFile(file).then(res => {
-      //   const blob = new Blob([res])
-      //   const fileName = file.f_name
-      //   if ('download' in document.createElement('a')) { // 非IE下载
-      //     const elink = document.createElement('a')
-      //     elink.download = fileName
-      //     elink.style.display = 'none'
-      //     elink.href = URL.createObjectURL(blob)
-      //     document.body.appendChild(elink)
-      //     elink.click()
-      //     URL.revokeObjectURL(elink.href) // 释放URL 对象
-      //     document.body.removeChild(elink)
-      //   } else { // IE10+下载
-      //     navigator.msSaveBlob(blob, fileName)
-      //   }
-      //
-      // })
+      goRouter(this, '/transfer')
     },
 
     handleCheckAllChange(val) {
@@ -325,8 +307,9 @@ export default {
 
     createFloader() {
       createFloader(this.$store.getters.fileCurrentPath, this.floaderName).then(res => {
-        console.log(res)
+        this.fetchData()
         this.$message({ message: '创建成功', type: 'success' })
+        this.isShowAlert = false
       })
     },
 

@@ -1,4 +1,5 @@
 import store from '../store'
+import config from './config'
 
 // eslint-disable-next-line no-undef
 const { ipcRenderer } = __non_webpack_require__('electron')
@@ -15,10 +16,25 @@ export function dowUrl(url) {
 }
 
 export async function fileTypeFilter(type) {
-  await store.dispatch('getFileList', store.getters.userInfo.u_id)
-  const fileList = store.getters.fileList
-  const filterFileList = fileList.filter(file => type.includes(file.f_name.split('.')[1]))
-  store.dispatch('filterFile', filterFileList)
+  await store.dispatch('getFileList', store.getters.userInfo.u_id).then(data => {
+    let filterFileList = []
+    if (type === 'qita') {
+      const wilteList = ['rar', 'ptf', 'zip']
+      const typeList = Object.keys(config.FILE_TYPE)
+      data.forEach(f => {
+        const fileType = f.f_name.split('.')[1]
+        ;(wilteList.includes(fileType) || !typeList.includes(fileType)) && (
+          filterFileList = [
+            ...filterFileList,
+            f
+          ]
+        )
+      })
+    } else {
+      filterFileList = data.filter(file => type.includes(file.f_name.split('.')[1]))
+    }
+    store.dispatch('filterFile', filterFileList)
+  })
 }
 
 export function fomartPath(pathArr) {

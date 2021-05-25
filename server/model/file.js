@@ -1,23 +1,20 @@
-const {} = require('../tool/constant')
+// const {} = require('../tool/constant')
 
-class File {
+// class File {
+//   constructor(file, userId) {
+//     this.fileProcessing(file, userId)
+//   }
 
-  constructor(file, userId) {
-    this.fileProcessing(file, userId)
-  }
+//   fileProcessing(file) {
+//     console.log(file)
 
+//     const fileObj = {
+//       f_name: file.originalname,
+//       f_size: file.size,
+//       f_path: file.path,
+//       f_type: file.mimetype
+//     }
+//   }
+// }
 
-  fileProcessing(file ,) {
-    console.log(file)
-
-    let fileObj = {
-      f_name: file.originalname,
-      f_size: file.size,
-      f_path: file.path,
-      f_type: file.mimetype
-    }
-
-  }
-}
-
-module.exports = File
+// module.exports = File

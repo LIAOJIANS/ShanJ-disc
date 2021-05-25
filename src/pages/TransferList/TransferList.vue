@@ -1,31 +1,32 @@
 <template>
-  <div v-if="$root.downFiles.length > 0">
-    <div class="down-title pt-1 pb-1 pr-2">
+  <div>
+    <!-- <div class="down-title pt-1 pb-1 pr-2">
       <div />
-      <p>
+
+    </div> -->
+    <div class="progress-bar dispaly-flex pl-2 pr-2 pb-1 pt-1">
+      <!-- <span class="pr-1">下载总进度</span>
+      <div class="f1">
+        <progress-list :percentage="0" :text="true" />
+      </div> -->
+      <p class="down-title">
         <span class="path" v-text="path" />
         <span class="btn" @click="handleSetDownPath">修改下载目录</span>
       </p>
-    </div>
-    <div class="progress-bar dispaly-flex pl-2 pr-2 pb-1 pt-1">
-      <span class="pr-1">下载总进度</span>
-      <div class="f1">
-        <progress-list :percentage="30" :text="true" />
-      </div>
       <div class="fun-btn" style="margin-left: 150px;">
         <el-button size="mini">全部开始</el-button>
         <el-button size="mini">全部取消</el-button>
       </div>
     </div>
-    <div class="dow-list">
-      <download-list :list="uploadInfo" />
+    <div v-if="$root.downFiles.length > 0" class="dow-list">
+      <download-list />
     </div>
+    <no-data v-else />
   </div>
-  <no-data v-else />
 </template>
 
 <script>
-import ProgressList from '../../components/progress/progress'
+// import ProgressList from '../../components/progress/progress'
 import DownloadList from '../../components/DownloadList/DownloadList'
 import NoData from '@/components/NoData/NoData'
 // eslint-disable-next-line no-undef
@@ -34,7 +35,7 @@ export default {
   name: 'TransferList',
 
   components: {
-    ProgressList,
+    // ProgressList,
     DownloadList,
     NoData
   },
@@ -46,14 +47,8 @@ export default {
     }
   },
 
-  computed: {
-    uploadInfo() {
-      return this.$store.getters.uploadInfo
-    }
-  },
-
   created() {
-    console.log(this.$root.downFiles)
+    console.log(this.$route)
   },
 
   methods: {
@@ -84,6 +79,7 @@ export default {
   }
   .btn {
     color: #0081ff;
+    cursor: pointer;
   }
 }
 .progress-bar {

@@ -108,45 +108,10 @@ export function delFile(cur_url, file_id) {
 }
 
 export function dowFile(file) {
-  console.log(file)
-  const { f_name, f_size } = file
-  let stime = new Date().getTime()
-  let sloaded = 0
-  return request({
-    url: '/file/dow_file',
-    method: 'post',
-    data: {
-      dow_url: file.f_dow_url
-    },
-    onDownloadProgress: progressEvent => {
-      router.currentRoute.fullPath !== '/transfer' && router.push('/transfer')
-      const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-      const endTime = new Date().getTime()
-      const dTime = (endTime - stime) / 1000
-      const dloaded = progressEvent.loaded - sloaded
-      let speed = dloaded / dTime
-      stime = new Date().getTime()
-      sloaded = progressEvent.loaded
-      let unit = 'b/s'
-      if (speed / 1024 > 1) {
-        unit = 'kb/s'
-        speed = speed / 1024
-      }
-      if (speed / 1024 > 1) {
-        unit = 'mb/s'
-        speed = speed / 1024
-      }
-      store.dispatch('onUploadProgress',
-        {
-          progressBar: percentCompleted,
-          sloaded: dloaded,
-          dloadedremainingTime: dTime,
-          uploadSpeed: speed.toFixed(2) + unit,
-          fileName: f_name,
-          fileSize: f_size,
-          fileType: f_name
-        }
-      )
-    }
-  })
+  console.log('file', file)
+  // return request({
+  //   url: '/file/dow_file',
+  //   method: 'post',
+  //   data: file
+  // })
 }

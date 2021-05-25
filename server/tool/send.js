@@ -1,23 +1,24 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer')
 
-let obj = {
+const obj = {
   transporter: nodemailer.createTransport({
-    host: "smtp.qq.com",
+    host: 'smtp.qq.com', // 默认是这个
     port: 465,
     auth: {
-      user: "272781702@qq.com",
-      pass: "bnyrpbpubydicbbh"
+      user: '272781702@qq.com',
+      pass: 'rxnjazwslqdkbgei' // rxnjazwslqdkbgei
     }
   }),
 
   send: function(mail, content) {
-    console.log(mail)
     const mailOptions = {
-      //发送方的邮箱地址
-      from: 'ShanJDisc注册验证码<272781702@qq.com>',
-      to: mail,
+      // 发送方的邮箱地址
+      from: '桌面版百度云注册验证码<272781702@qq.com>',
+      to: mail, // 对方邮箱
+      // cc         : ''  //抄送 用于多人邮件
+      // bcc      : ''    //密送
       subject: '激活验证码',
-      text: `您的注册验证码为：${ content }, 24小时内有效，请谨慎保管`,
+      text: `您的注册验证码为：${content}, 24小时内有效，请谨慎保管`,
       html: `
             <head>
             <base target="_blank" />
@@ -48,7 +49,7 @@ let obj = {
                             <div style="line-height:1.5;font-size:14px;margin-bottom:25px;color:#4d4d4d;">
                                 <strong style="display:block;margin-bottom:15px;">尊敬的用户：<span style="color:#f60;font-size: 16px;"></span>您好！</strong>
                                 <strong style="display:block;margin-bottom:15px;">
-                                    您正在进行<span style="color: red">ShanJDisc账号申请</span>操作，请在验证码输入框中输入：<span style="color:#f60;font-size: 24px">${ content }</span>，以完成操作。
+                                    您正在进行<span style="color: red">ShanJDisc账号申请</span>操作，请在验证码输入框中输入：<span style="color:#f60;font-size: 24px">${content}</span>，以完成操作。
                                 </strong>
                             </div>
                             <div style="margin-bottom:30px;">
@@ -77,13 +78,13 @@ let obj = {
     }
     this.transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        return console.log(error);
+        return console.log(error)
       }
-      console.log("Message sent: %s", info.messageId);
-    });
+      console.log('Message sent: %s', info.messageId)
+    })
   }
-};
+}
 
-//抛出对象以接收
+// 抛出对象以接收
 
-module.exports = obj;
+module.exports = obj

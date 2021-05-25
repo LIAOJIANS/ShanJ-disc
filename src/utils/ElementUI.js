@@ -21,7 +21,8 @@ import {
   Table,
   CheckboxButton,
   TableColumn,
-  Radio
+  Radio,
+  Link
 } from 'element-ui'
 
 const element = {
@@ -47,6 +48,7 @@ const element = {
     Vue.use(TableColumn)
     Vue.use(Upload)
     Vue.use(Radio)
+    Vue.use(Link)
     Vue.prototype.$message = Message
   }
 }

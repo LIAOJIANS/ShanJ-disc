@@ -1,20 +1,31 @@
 <template>
   <div class="down-page">
     <!--  <template v-if="$root.downFiles.length>0"> -->
-    <div class="down-card">
-      <template v-if="$root.downFiles.length>0">
-        <div v-for="(file,index) in $root.downFiles" :key="index" class="file-item">
-          <div class="down-content">
-            <div class="file-info">
-              <div>文件名：{{ file.f_name }}</div>
-              <div class="file-size">文件大小：{{ file.f_size | byte }}</div>
-              <div v-if="file.state === 'downing'" class="file-speed">下载速度：{{ file.speedBytes | byte }}/s</div>
-              <div v-if="file.state === 'wait'" class="file-offset">等待中</div>
-              <div v-else class="file-offset">已下载：{{ file.offset | byte }}</div>
-              <div class="clost-btn iconfont icon-guanbi" @click="handleClose(file)" />
-              <div class="opt">
-                <div v-if="['paused', 'interrupted'].includes(file.state)" class="iconfont icon-bofang" @click="handleResume(file)" />
-                <div v-if="file.state === 'downing'" class="iconfont icon-zanting" @click="handlePaused(file)" />
+    <div v-if="$route.name !== 'CompleteTransfer'" class="down-card">
+      <template v-if="$root.downFiles.length > 0">
+        <div v-for="(file,index) in $root.downFiles" :key="index" class="file-item dispaly-center pr-2 pl-1 pt-1 pb-1">
+          <img :src="fType(file)" alt="">
+          <div class="down-content ml-2">
+            <span class="dow_title">{{ file.f_name }}</span>
+            <div class="dispaly-center">
+              <div class="file-info dispaly-center pt-1 pb-1">
+                <div class="file-size">文件大小：{{ file.f_size | byte }}</div>
+                <div v-if="file.state === 'downing'" class="pl-3">下载速度：{{ file.speedBytes | byte }}/s</div>
+                <div v-if="file.state === 'wait'" class="pl-3">等待中</div>
+                <div v-else class="pl-3">已下载：{{ file.offset | byte }}</div>
+              </div>
+              <div class="opt" style="padding-left: 150px; font-size: 16px">
+                <div class="el-icon-close" @click="handleClose(file)" />
+                <div
+                  v-if="['paused', 'interrupted'].includes(file.state)"
+                  class="el-icon-video-play pl-2"
+                  @click="handleResume(file)"
+                />
+                <div
+                  v-if="file.state === 'downing'"
+                  class="el-icon-video-pause pl-2"
+                  @click="handlePaused(file)"
+                />
               </div>
             </div>
             <el-progress :status="file.state | state" :percentage="file.progress" />
@@ -26,41 +37,23 @@
       </template>
     </div>
 
-    <div>
-      <div v-for="(file, index) in $root.downFiles" :key="index" class="list dispaly-center pr-2 pl-2 pt-1 pb-1">
+    <div v-else>
+      <div
+        v-for="(file, index) in downDoneFiles"
+        :key="index"
+        class="list dispaly-center pr-2 pl-1 pt-1 pb-1"
+        l@click="handleOpen(file.path)"
+      >
         <img :src="fType(file)" alt="">
-        <p class="file-detal ml-3">
+        <div class=" ml-2">
           <span>{{ file.fileName || file.f_name }}</span>
-          <span v-if="file.sloaded" class="size"> {{ file.sloaded }} / {{ file.fileSize }} </span>
-          <span v-else class="size">{{ file.f_size | byte }}</span>
-        </p>
-        <div v-if="file.state === 'downing'" class="file-speed">下载速度：{{ file.speedBytes | byte }}/s</div>
-        <div v-if="file.state === 'wait'" class="file-offset">等待中</div>
-        <!-- <p v-if="file.uploadSpeed" class="dow-spe">
-          {{ file.uploadSpeed }}
-        </p>
-        <p v-else class="el-icon-delete-solid" @click="addhisStory(file.f_id, file.f_name)" /> -->
-        <div class="fun-btn f1">
-          <!-- <span v-show="!file.f_name" :class="dowClass(file.fileId)" @click="funDow(file)" />
-          <span v-show="!file.f_name" class="el-icon-circle-close" @click="handlePaused(file)" /> -->
-          <span v-if="file.state === 'downing'" class="el-icon-video-pause" @click="handlePaused(file)" />
-          <span v-else class="el-icon-video-play" @click="handleResume" />
-          <span v-show="!file.f_name" class="el-icon-circle-close" @click="handleClose(file)" />
+          <div class="dispaly-center">
+            <span class="size">{{ file.f_size | byte }}</span>
+            <span class="size pl-1">地址：{{ file.path }}</span>
+          </div>
         </div>
       </div>
     </div>
-    <!-- <div v-if="$root.downDoneFiles.length>0" class="down-card" @click="handleOpen">
-      <h2 class="title">已完成</h2>
-      <div v-for="(file,index) in $root.downDoneFiles" :key="index" class="file-item">
-        <div class="end-content">
-          <div class="file-time">{{ file.downloadtime }}</div>
-          <div class="file-resolution">尺寸：{{ file.resolution }}</div>
-          <div class="file-size">大小：{{ file.size | byte }}</div>
-          <div class="file-path">地址：{{ file.path }}</div>
-          <div class="clost-btn iconfont icon-guanbi" @click="handleClose(file,false)" />
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -102,15 +95,38 @@ export default {
       }
     }
   },
+
+  data() {
+    return {
+      downDoneFiles: []
+    }
+  },
+
+  computed: {
+    fType() {
+      return (file) => {
+        const fileName = file.f_name || file.fileName
+        return fileType(fileName)
+      }
+    }
+  },
+
+  created() {
+    console.log(this.$store.getters)
+    this.downDoneFiles = this.$store.getters.fileList.filter(c => c.f_transfer_state).map(c => (
+      {
+        ...c,
+        path: this.$root.downDoneFiles.find(z => z.f_id === c.f_id).path
+      }
+    ))
+  },
+
   methods: {
-    fType(file) {
-      const fileName = file.f_name || file.fileName
-      return fileType(fileName)
-    },
     // 暂停
     handlePaused(file) {
       pause(file.f_dow_url)
     },
+
     // 恢复下载  恢复断点下载
     handleResume(file) {
       if (file.state === 'paused') {
@@ -119,18 +135,18 @@ export default {
         nextresume(file)
       }
     },
+
     // 取消下载
     handleClose(item, type = true) {
       // 取消下载任务
       if (item.state !== 'completed') {
-        cancel(item.url)
+        cancel(item.f_dow_url)
       }
       // 删除列表
-      this.$root.removeDownFile(item.id, type)
+      this.$root.removeDownFile(item.f_id, type)
     },
-    // 打开图片路径
-    handleOpen(event) {
-      const path = event.target.dataset.path
+
+    handleOpen(path) { // 打开图片路径
       if (path !== undefined) {
         ipcRenderer.send('check_path', { path })
         ipcRenderer.once(`check_path${path}`, (e, err) => {
@@ -143,145 +159,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .down-page {
-        padding: 20px 100px;
-        height: 100%;
-        overflow-y: auto;
-        box-sizing: border-box;
-        .down-card {
-            .title {
-                color: #a7a7a7;
-                margin: 10px;
-            }
 
-            .file-item {
-                border-radius: 3px;
-                position: relative;
-                display: flex;
-                background-color: #7eb0da30;
-                color: #fff;
+  .down-card {
+    .file-item {
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
 
-                + .file-item {
-                    margin-top: 30px;
-                }
+      border-bottom: 1px solid #f0f0f0;
 
-                .file {
-                    file {
-                        width: 120px;
-                        height: 80px;
-                        display: block;
-                    }
-                }
+      &:hover {
+        background: #F1F3F7;
+      }
 
-                //
-                .down-content {
-                    flex: 1;
-                    padding: 0 20px;
+      img {
+        width: 22px;
+      }
 
-                    .file-info {
-                        height: 60px;
-                        position: relative;
+      .down-content {
+        flex: 1;
 
-                        > div {
-                            font-size: 14px;
-                            color: rgb(173, 173, 173);
-                            position: absolute;
-                        }
-
-                        .file-resolution {
-                            top: 10px;
-                            left: 0;
-                        }
-
-                        .file-size {
-                            bottom: 5px;
-                            left: 0px;
-                        }
-                        .file-speed {
-                            bottom: 5px;
-                            right: 160px;
-                        }
-                        .file-offset {
-                            bottom: 5px;
-                            right: 35px;
-                        }
-                        .opt {
-                            position: absolute;
-                            display: flex;
-                            top: 0px;
-                            right: 30px;
-                            padding: 5px;
-
-                            div {
-                                font-size: 20px !important;
-                            }
-                        }
-
-                        .clost-btn {
-                            position: absolute;
-                            top: 5px;
-                            padding: 5px;
-                            right: 0;
-                        }
-                    }
-
-                    /deep/ .el-progress {
-                        .el-progress-bar {
-                            padding-right: 0;
-                            margin-right: 0;
-                        }
-
-                        .el-progress__text {
-                            display: none;
-                        }
-                    }
-                }
-
-                //
-                .end-content {
-                    color: #aaaaaa;
-                    padding: 0 20px;
-                    div {
-                        position: absolute;
-                        font-size: 14px;
-                    }
-
-                    .file-time {
-                        top: 20px;
-                    }
-                    .file-size {
-                        top: 50px;
-                        left: 280px;
-                    }
-                    .file-path {
-                        top: 50px;
-                        left: 410px;
-                        width: 600px;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                    }
-                    .file-resolution {
-                        top: 50px;
-                    }
-                    .clost-btn {
-                        top: 25px;
-                        right: 20px;
-                        padding: 5px;
-                    }
-                }
-            }
-
-            .empty {
-                color: #a5a5a5;
-                text-align: center;
-            }
-
-            + .down-card {
-                margin-top: 30px;
-            }
+        .dow_title {
+          font-size: 16px;
+          font-weight: 400;
+          color: #000;
         }
+
+        /deep/ .el-progress {
+
+          .el-progress-bar {
+            padding-right: 0;
+            margin-right: 0;
+          }
+
+          .el-progress__text {
+            display: none;
+          }
+        }
+      }
+
     }
+  }
+  .empty {
+    color: #a5a5a5;
+    text-align: center;
+  }
+
 </style>
 <style lang="scss" scoped>
 

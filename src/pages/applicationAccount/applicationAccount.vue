@@ -1,58 +1,62 @@
 <template>
   <div class="app-count-page">
+    <el-link type="primary" style="margin-left: 100px" @click="$router.go(-1)">返回登录页</el-link>
     <div class="steps-content dispaly-content-center pt-3">
       <el-steps :active="stepCount" style="width: 80%;" finish-status="success">
-        <el-step :title="firstStep"></el-step>
-        <el-step :title="twoStep"></el-step>
-        <el-step :title="thirdStep"></el-step>
+        <el-step :title="firstStep" />
+        <el-step :title="twoStep" />
+        <el-step :title="thirdStep" />
       </el-steps>
     </div>
     <div class="app-count-contetn dispaly-content-center pt-3">
       <el-form class="email-form dispaly-content-center" :model="aapForm" :rules="appRules">
         <div style="text-align: center">
           <el-form-item
-              v-if="stepCount === 0"
-              prop="username"
-              label="用户名"
-              class="dispaly-center"
+            v-if="stepCount === 0"
+            prop="username"
+            label="用户名"
+            class="dispaly-center"
           >
-            <el-input v-model="aapForm.username" placeholder="用户名"></el-input>
+            <el-input v-model="aapForm.username" placeholder="用户名" />
           </el-form-item>
           <el-form-item
-              v-if="stepCount === 1"
-              prop="email"
-              label="邮箱"
-              min-leng="6"
-              class="dispaly-center"
+            v-if="stepCount === 1"
+            prop="email"
+            label="邮箱"
+            min-leng="6"
+            class="dispaly-center"
           >
-            <el-input v-model="aapForm.email" placeholder="邮箱" ></el-input>
+            <el-input v-model="aapForm.email" placeholder="邮箱" />
           </el-form-item>
 
           <el-form-item
-              v-else-if="stepCount === 2"
-              prop="yzm"
-              label="邮箱验证码"
-              class="dispaly-center"
+            v-else-if="stepCount === 2"
+            prop="yzm"
+            label="邮箱验证码"
+            class="dispaly-center"
           >
-            <el-input v-model="aapForm.yzm" placeholder="验证码"></el-input>
+            <el-input v-model="aapForm.yzm" placeholder="验证码" />
           </el-form-item>
-          <div class="mt-3 mb-3" v-else-if="stepCount === 3">
+          <div v-else-if="stepCount === 3" class="mt-3 mb-3">
             提交完成，正在等管理员审核，请留意您的邮箱。
           </div>
-          <el-button type="primary" style="margin-top: 12px;" @click="submit" :disabled="disableBtn">{{ stepCount === 3 ? '返回登录页' : '下一步' }}</el-button>
+          <el-button
+            type="primary"
+            style="margin-top: 12px;"
+            :disabled="disableBtn"
+            @click="submit"
+          >{{ stepCount === 3 ? '返回登录页' : '下一步' }}</el-button>
         </div>
       </el-form>
     </div>
-    <div class="git_hub_login">
-
-    </div>
+    <div class="git_hub_login" />
   </div>
 </template>
 
 <script>
 import { applicationAccountNumber, sendEmailCode, userCheck } from '@/api/user'
 export default {
-  name: "applicationAccount",
+  name: 'ApplicationAccount',
   data() {
     const validateUsername = (rule, value, callback) => {
       this.uCheck(value, res => {
@@ -68,9 +72,10 @@ export default {
         yzm: ''
       },
       appRules: {
-        username: [ { required: true, trigger: ['blur', 'change'], validator: validateUsername }],
-        email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }, { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
-        yzm: [ { required: true, message: '请输入您的验证码', trigger: 'blur' }]
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
+        yzm: [{ required: true, message: '请输入您的验证码', trigger: 'blur' }]
       },
       disableBtn: true
     }
@@ -91,20 +96,20 @@ export default {
   },
 
   watch: {
-    'aapForm.username' : {
-      handler: function (newVal) {
+    'aapForm.username': {
+      handler: function(newVal) {
         this.btnChage(newVal)
       }
     },
 
-    'aapForm.yzm' : {
-      handler: function (newVal) {
+    'aapForm.yzm': {
+      handler: function(newVal) {
         this.btnChage(newVal)
       }
     },
 
-    'aapForm.email' : {
-      handler: function (newVal) {
+    'aapForm.email': {
+      handler: function(newVal) {
         this.btnChage(this.emailCheck(newVal))
         this.emailCheck(newVal) && (this.disableBtn = false)
       }
@@ -112,7 +117,7 @@ export default {
   },
   methods: {
     btnChage(newVal) {
-      this.disableBtn = !newVal ? true : false
+      this.disableBtn = !newVal
     },
 
     uCheck(username, cb) {
@@ -181,7 +186,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @import "../../assets/scss/index.scss";
   .email-form {
     width: 40%;

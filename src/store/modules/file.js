@@ -5,7 +5,6 @@ const state = {
   fileCurrentPath: ''
 }
 
-
 const actions = {
   getFileList({ commit, state }, u_id) {
     return new Promise(resolve => {
@@ -76,7 +75,7 @@ const mutations = {
   },
 
   SET_CURRENT_PATH: (state, path) => {
-    state.fileCurrentPath = !state.fileCurrentPath ? path : `${ state.fileCurrentPath }/${ path }`
+    state.fileCurrentPath = !state.fileCurrentPath ? path : `${state.fileCurrentPath}/${path}`
   }
 }
 

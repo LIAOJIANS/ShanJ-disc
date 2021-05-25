@@ -1,6 +1,7 @@
 const { app, ipcMain, session, Notification, shell, dialog } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const axios = require('axios')
 
 // 缓存下载项
 const cacheDownItem = {}
@@ -201,6 +202,15 @@ const mainWindowIpcStart = function(win) {
         }
 
         !cacheItem.notSend && win.webContents.send('update-down-state', JSON.parse(JSON.stringify(cacheItem)))
+
+        // 请求后端改变文件状态
+        axios.post('http://192.168.1.64:3000/file/dow_file',
+          { file_obj: cacheDownItem[url] },
+          {
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          })
 
         // 删除缓存
         delete cacheDownItem[url]

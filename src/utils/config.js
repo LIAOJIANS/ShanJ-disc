@@ -1,5 +1,4 @@
 
-
 export default {
   FILE_TYPE: {
     zip: require('@/assets/images/zip.png'),
@@ -23,18 +22,18 @@ export default {
   ],
 
   home: [
-    {key: '1', icon: 'el-icon-time', title: '最近文件'},
-    {key: '2', icon: 'el-icon-tickets', title: '全部文件', children: [
-        { key: '2-1', title: '图片' },
-        { key: '2-2', title: '视频' },
-        { key: '2-3', title: '文档' },
-        { key: '2-4', title: '表格' },
-        { key: '2-5', title: '音乐' },
-        { key: '2-6', title: '其他' }
-      ]},
-    {key: '3', icon: 'el-icon-lock', title: '隐藏空间'},
-    {key: '4', icon: 'el-icon-share', title: '我的分享'},
-    {key: '5', icon: 'el-icon-delete', title: '回收站'}
+    { key: '1', icon: 'el-icon-time', title: '最近文件' },
+    { key: '2', icon: 'el-icon-tickets', title: '全部文件', children: [
+      { key: '2-1', title: '图片' },
+      { key: '2-2', title: '视频' },
+      { key: '2-3', title: '文档' },
+      { key: '2-4', title: '表格' },
+      { key: '2-5', title: '音乐' },
+      { key: '2-6', title: '其他' }
+    ] },
+    { key: '3', icon: 'el-icon-lock', title: '隐藏空间' },
+    { key: '4', icon: 'el-icon-share', title: '我的分享' },
+    { key: '5', icon: 'el-icon-delete', title: '回收站' }
   ],
 
   share: ''

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <download-list :list="list" v-if="list.length > 0" />
+    <download-list v-if="list.length > 0" />
     <no-data v-else />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import DownloadList from '@/components/DownloadList/DownloadList'
 import NoData from '@/components/NoData/NoData'
 export default {
-  name: "CompleteTransfer",
+  name: 'CompleteTransfer',
 
   components: {
     DownloadList,
@@ -18,8 +18,14 @@ export default {
 
   data() {
     return {
-     list: this.$store.getters.fileList
+      list: []
     }
+  },
+
+  created() {
+    this.$store.dispatch('getFileList', this.$store.getters.userInfo.u_id).then(data => {
+      this.list = data
+    })
   }
 }
 </script>

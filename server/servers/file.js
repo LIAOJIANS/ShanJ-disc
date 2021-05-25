@@ -6,7 +6,7 @@ const { delServerFile } = require('../tool/file')
 async function uploadFile(options, cb) {
   const { file, username, fileDow, groupingName } = options
   let u_id = null
-  if(!file || file.length === 0) { return cb && cb(false) }
+  if (!file || file.length === 0) { return cb && cb(false) }
   await findOne(UserList, { u_name: username }, data => {
     u_id = data.dataValues.u_id
     const createObj = {
@@ -25,12 +25,12 @@ async function uploadFile(options, cb) {
 }
 
 function uploadList(uId, groupingName, cb) {
-  if(groupingName.split('/').length === 0) {
-    findAll(FileList, { where: { u_id: uId, f_history_state: 0 } }, data => {
+  if (groupingName.split('/').length === 0) {
+    findAll(FileList, { where: { u_id: uId, f_history_state: 0 }}, data => {
       cb && cb(data)
     })
   } else {
-    findAll(FileList, { where: { u_id: uId, f_history_state: 0, f_grouping: groupingName } }, data => {
+    findAll(FileList, { where: { u_id: uId, f_history_state: 0, f_grouping: groupingName }}, data => {
       cb && cb(data)
     })
   }
@@ -40,7 +40,7 @@ function historyFile(options, cb) {
   const { f_id } = options
   const option = [
     { f_history_state: 1 },
-    { where: { f_id } }
+    { where: { f_id }}
   ]
   update(FileList, option, data => {
     cb && cb(data)
@@ -48,18 +48,26 @@ function historyFile(options, cb) {
 }
 
 function historyList(options, cb) {
-  findAll(FileList, { where: { ...options, f_history_state: 1 } }, data => {
+  findAll(FileList, { where: { ...options, f_history_state: 1 }}, data => {
     cb && cb(data)
   })
 }
 
 function handleDelFile(url, f_id, cb) {
-  destroy(FileList, { where: { f_id } }, data => {
-    console.log(data)
+  destroy(FileList, { where: { f_id }}, data => {
     // if(!data) { return cb && cb(false) }
     delServerFile(url, flag => {
       flag && cb && cb('删除成功')
     })
+  })
+}
+
+function handDelFile(f_id, cb) {
+  update(FileList, [
+    { f_transfer_state: 1 },
+    { where: { f_id }}
+  ], data => {
+    cb && cb(data)
   })
 }
 
@@ -68,5 +76,6 @@ module.exports = {
   uploadList,
   historyFile,
   historyList,
-  handleDelFile
+  handleDelFile,
+  handDelFile
 }

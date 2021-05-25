@@ -7,32 +7,32 @@ const {
 class Result {
   constructor(data, msg = '操作成功!', options) {
     this.data = null
-    if(arguments.length === 0) {
+    if (arguments.length === 0) {
       this.msg = '操作成功！'
     } else if (arguments.length === 1) {
       this.msg = data
     } else {
       this.data = data
       this.msg = msg
-      if(options) this.options = options
+      if (options) this.options = options
     }
   }
 
   content() {
-    if(!this.code) {
+    if (!this.code) {
       this.code = CODE_SUCCESS
     }
 
-    let base = {
-      code:this.code,
+    const base = {
+      code: this.code,
       msg: this.msg
     }
 
-    if(this.data) {
+    if (this.data) {
       base.data = this.data
     }
 
-    if(this.options) {
+    if (this.options) {
       base.options = this.options
     }
 

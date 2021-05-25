@@ -18,10 +18,10 @@ router.post('/create_folder',
     errorChecking(next, req, () => {
       const { currentPath, folderName } = req.body
       const path = `${UPLOAD_PATH}/${currentPath}`
-      mkdirFloader(folderName, path, flag => {
-        if (!flag) { return new Result('创建失败').fail(res) }
-        new Result('创建成功').success(res)
-      })
+      const flag = mkdirFloader(folderName, path)
+      console.log(flag)
+      if (!flag) { return new Result('创建失败').fail(res) }
+      new Result('创建成功').success(res)
     })
   })
 

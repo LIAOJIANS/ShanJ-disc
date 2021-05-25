@@ -10,7 +10,8 @@ const jwtAuth = jwt({
     '/user/login',
     '/user/sendcode',
     '/user/register',
-    '/user/user_check'
+    '/user/user_check',
+    '/file/dow_file'
   ]
 })
 

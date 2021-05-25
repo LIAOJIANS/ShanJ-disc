@@ -4,7 +4,7 @@ const Result = require('../model/Result')
 const multer = require('multer')
 const { UPLOAD_PATH } = require('../tool/constant')
 const fs = require('fs')
-const { uploadFile, uploadList, historyFile, historyList } = require('../servers/file')
+const { uploadFile, uploadList, historyFile, historyList, handDelFile } = require('../servers/file')
 const { decoded } = require('../tool')
 const { body } = require('express-validator')
 const { errorChecking } = require('../tool/public')
@@ -55,21 +55,26 @@ router.post('/del-history', [
 })
 
 router.post('/dow_file', [
-  body('dow_url').isLength({ min: 0 }).withMessage('文件路径不能为空')
+  body('file_obj').isLength({ min: 0 }).withMessage('文件路径不能为空')
 ], (req, res, next) => {
   errorChecking(next, req, () => {
-    const realPath = `./${req.body.dow_url}`
-    res.writeHead(200, {
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': 'attachment; filename=' + encodeURI(`${realPath.split('/')[realPath.split('/').length - 1]}`)
-    })
-    const readStream = fs.createReadStream(realPath)
-    readStream.on('data', (chunk) => {
-      res.write(chunk, 'binary')
-    })
-    readStream.on('end', () => {
-      res.end()
-    })
+    try {
+      handDelFile(req.body.file_obj.f_id, data => new Result(data, '下载成功！').success(res))
+    } catch (e) {
+      console.log(e)
+    }
+    // const realPath = `./${req.body.dow_url}`
+    // res.writeHead(200, {
+    //   'Content-Type': 'application/octet-stream',
+    //   'Content-Disposition': 'attachment; filename=' + encodeURI(`${realPath.split('/')[realPath.split('/').length - 1]}`)
+    // })
+    // const readStream = fs.createReadStream(realPath)
+    // readStream.on('data', (chunk) => {
+    //   res.write(chunk, 'binary')
+    // })
+    // readStream.on('end', () => {
+    //   res.end()
+    // })
   })
 })
 

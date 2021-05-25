@@ -19,17 +19,16 @@ function usernameIsRegister(options, cb) {
   })
 }
 
-
 function register(body, YZM_CODE, cb) {
   const { username, email, code } = body
-  if(YZM_CODE !== code) { return cb && cb(false) }
-  findOne(UserList,{ u_email: email }, data => {
-    if(data) { return cb && cb(false) }
-    create(UserList,{
+  if (YZM_CODE !== code) { return cb?.(false) }
+  findOne(UserList, { u_email: email }, data => {
+    if (data) { return cb?.(false) }
+    create(UserList, {
       u_name: username,
       u_email: email
     }, res => {
-      cb && cb(res)
+      cb?.(res)
     })
   })
 }

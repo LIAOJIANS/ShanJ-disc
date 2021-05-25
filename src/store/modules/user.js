@@ -32,6 +32,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
+      commit('SET_USER_INFO', {})
       removeToken()
       resolve()
     })

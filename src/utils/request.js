@@ -11,7 +11,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     config.headers['Content-Type'] = 'application/json;charset=UTF-8'
-    store.getters.token && (config.headers['Authorization'] = `Bearer ${ getToken() }`)
+    store.getters.token && (config.headers['Authorization'] = `Bearer ${getToken()}`)
     return config
   },
   error => {
@@ -28,7 +28,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data || response
     const errMsg = res.msg || '请求失败！'
-    if((res.code && res.code !== 200) || (res.status && res.status !== 200)) {
+    if ((res.code && res.code !== 200) || (res.status && res.status !== 200)) {
       Message({
         message: errMsg || '请求失败',
         duration: 1000,
@@ -40,7 +40,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    if(error.request.status === 401) { store.dispatch('resetToken') }
+    if (error.request.status === 401) { store.dispatch('resetToken') }
     Message({
       message: error || '请求失败',
       duration: 1000,
