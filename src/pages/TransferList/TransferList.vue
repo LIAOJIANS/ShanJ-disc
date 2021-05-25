@@ -18,26 +18,23 @@
         <el-button size="mini">全部取消</el-button>
       </div>
     </div>
-    <div v-if="$root.downFiles.length > 0" class="dow-list">
-      <download-list />
-    </div>
-    <no-data v-else />
+    <download-list v-if="$route.params.key === '1'" />
+    <upload-list v-else />
   </div>
 </template>
 
 <script>
 // import ProgressList from '../../components/progress/progress'
 import DownloadList from '../../components/DownloadList/DownloadList'
-import NoData from '@/components/NoData/NoData'
+import UploadList from './components/uploadList'
 // eslint-disable-next-line no-undef
 const { ipcRenderer } = __non_webpack_require__('electron')
 export default {
   name: 'TransferList',
 
   components: {
-    // ProgressList,
     DownloadList,
-    NoData
+    UploadList
   },
 
   data() {
@@ -46,11 +43,6 @@ export default {
       path: localStorage.getItem('downloads')
     }
   },
-
-  created() {
-    console.log(this.$route)
-  },
-
   methods: {
 
     handleSetDownPath() {

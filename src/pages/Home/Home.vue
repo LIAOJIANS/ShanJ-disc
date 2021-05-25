@@ -35,11 +35,11 @@
             <p class="content-box-title mt-2">{{ item.f_name }}</p>
           </li>
 
-          <li class="add-upload d-c-c mt-2" @click="newFileJia">
+          <!-- <li class="add-upload d-c-c mt-2" @click="newFileJia">
             <p class="pr-2 pl-2 pt-2 pb-2">
               <i class="iconfont el-icon-plus" />
             </p>
-          </li>
+          </li> -->
 
         </ul>
         <ul v-else class="file-list">
@@ -291,7 +291,7 @@ export default {
 
       this.$root.addDownFile(file)
 
-      goRouter(this, '/transfer')
+      goRouter(this, '/transfer/1')
     },
 
     handleCheckAllChange(val) {
@@ -376,7 +376,7 @@ export default {
   }
 
   .document-content {
-    height: 89%;
+    height: 86%;
     position: relative;
     overflow-y: auto;
   }
@@ -417,8 +417,9 @@ export default {
     }
 
     .content-box-title {
-      font-size: 14px;
+      font-size: 12px;
       color: #666;
+      word-break: break-word;
     }
 
     .action-change {
@@ -436,19 +437,19 @@ export default {
     }
   }
 
-  @media screen and (max-width: 1200px) {
+  // @media screen and (max-width: 1200px) {
 
-    .content-box {
-      .ul-radio {
-        justify-content: center;
-      }
+  //   .content-box {
+  //     .ul-radio {
+  //       justify-content: center;
+  //     }
 
-      .ul-radio {
-        li {
-          width: 20% !important;
-          cursor: pointer !important;
-        }
-      }
-    }
-  }
+  //     .ul-radio {
+  //       li {
+  //         width: 20% !important;
+  //         cursor: pointer !important;
+  //       }
+  //     }
+  //   }
+  // }
 </style>

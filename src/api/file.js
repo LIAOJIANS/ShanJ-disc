@@ -15,7 +15,7 @@ export function uploadFile(file, path) {
     method: 'post',
     data: formData,
     onUploadProgress: progressEvent => {
-      router.currentRoute.fullPath !== '/transfer' && router.push('/transfer')
+      router.currentRoute.fullPath !== '/transfer/2' && router.push('/transfer/2')
       const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
       const endTime = new Date().getTime()
       const dTime = (endTime - stime) / 1000

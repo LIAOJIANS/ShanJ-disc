@@ -39,7 +39,7 @@ export default new Router({
       component: Index,
       children: [
         {
-          path: '/transfer',
+          path: '/transfer/:key',
           component: _import('TransferList/TransferList'),
           name: 'TransferList',
           meta: {

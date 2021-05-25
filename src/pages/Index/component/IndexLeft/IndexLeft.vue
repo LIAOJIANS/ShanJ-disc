@@ -87,11 +87,11 @@ export default {
       localStorage.setItem('activeIndex', key)
       switch (key) {
         case '1':
-          this.isDow() ? goRouter(this, '/') : goRouter(this, '/transfer')
+          this.isDow() ? goRouter(this, '/') : goRouter(this, '/transfer', key)
           this.$store.dispatch('getFileList', this.$store.getters.userInfo.u_id)
           break
         case '2':
-          this.isDow() ? this.fileFiltering(key) : goRouter(this, '/transfer')
+          this.isDow() ? this.fileFiltering(key) : goRouter(this, '/transfer', key)
           break
         case '3':
           this.isDow() ? goRouter(this, '/hide') : goRouter(this, '/complete-transfer')
@@ -110,7 +110,7 @@ export default {
 
     isDow() {
       const fullPath = this.$route.fullPath
-      return fullPath !== '/transfer' && fullPath !== '/complete-transfer'
+      return fullPath.indexOf('transfer') === -1
     },
 
     fileFiltering(key) {
@@ -132,7 +132,6 @@ export default {
           fileTypeFilter(['mp3', 'mp4'])
           break
         case '2-6':
-          console.log(key)
           fileTypeFilter('qita')
           break
         default:

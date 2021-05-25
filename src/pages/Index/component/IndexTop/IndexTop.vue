@@ -34,7 +34,6 @@
 <script>
 import { goRouter } from '../../../../utils/publicTool'
 import FuncTool from '@/components/funcTool/funcTool'
-const routerBox = ['/', '/transfer']
 export default {
   name: 'IndexRight',
 
@@ -64,7 +63,17 @@ export default {
 
   methods: {
     routingLocation(router) {
-      this.activeIndex = router.path === '/complete-transfer' ? '2' : (routerBox.indexOf(router.path) + 1).toString()
+      const routerBox = {
+        'transfer': 2,
+        '/': 1
+      }
+
+      Object.keys(routerBox).forEach(c => {
+        if (router.path.indexOf(c) !== -1) {
+          this.activeIndex = routerBox[c].toString()
+          return
+        }
+      })
     },
 
     logout() {
@@ -79,7 +88,7 @@ export default {
           goRouter(this, '/')
           break
         case '2':
-          goRouter(this, '/transfer')
+          goRouter(this, '/transfer/1')
           break
         case '3':
           goRouter(this, '/share')

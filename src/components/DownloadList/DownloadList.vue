@@ -32,9 +32,8 @@
           </div>
         </div>
       </template>
-      <template v-else>
-        <div class="empty">任务队列已经空空如也~</div>
-      </template>
+
+      <no-data v-else />
     </div>
 
     <div v-else>
@@ -42,7 +41,7 @@
         v-for="(file, index) in downDoneFiles"
         :key="index"
         class="list dispaly-center pr-2 pl-1 pt-1 pb-1"
-        l@click="handleOpen(file.path)"
+        @click="handleOpen(file.path)"
       >
         <img :src="fType(file)" alt="">
         <div class=" ml-2">
@@ -78,6 +77,7 @@ import { pause, resume, nextresume, cancel } from '@/utils/FileTool'
 // eslint-disable-next-line no-undef
 const { ipcRenderer } = __non_webpack_require__('electron')
 import { fileType } from '../../utils/publicTool'
+import NoData from '@/components/NoData/NoData'
 
 export default {
   name: 'DownloadPage',
@@ -96,6 +96,8 @@ export default {
     }
   },
 
+  components: { NoData },
+
   data() {
     return {
       downDoneFiles: []
@@ -112,7 +114,6 @@ export default {
   },
 
   created() {
-    console.log(this.$store.getters)
     this.downDoneFiles = this.$store.getters.fileList.filter(c => c.f_transfer_state).map(c => (
       {
         ...c,
@@ -206,6 +207,7 @@ export default {
   }
 
 </style>
+
 <style lang="scss" scoped>
 
   .list {

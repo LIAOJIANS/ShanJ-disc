@@ -34,6 +34,7 @@ export default {
 .app-main {
   min-height: calc(100vh - 80px);
   width: 100%;
+  min-width: 1024px;
   position: relative;
   overflow: hidden;
   padding-top: 80px;
