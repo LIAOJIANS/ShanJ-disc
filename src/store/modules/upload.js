@@ -8,17 +8,7 @@ const state = {
     fileSize: 0,
     fileType: ''
   },
-  uploadList: [
-    {
-      progressBar: 0,
-      sloaded: 0,
-      dloadedremainingTime: null,
-      uploadSpeed: null,
-      fileName: '',
-      fileSize: 0,
-      fileType: ''
-    }
-  ]
+  uploadList: []
 }
 
 const mutations = {

@@ -57,7 +57,7 @@ function handleDelFile(url, f_id, cb) {
   destroy(FileList, { where: { f_id }}, data => {
     // if(!data) { return cb && cb(false) }
     delServerFile(url, flag => {
-      flag && cb && cb('删除成功')
+      cb && cb('删除成功')
     })
   })
 }

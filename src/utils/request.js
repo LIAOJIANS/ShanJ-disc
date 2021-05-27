@@ -28,7 +28,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data || response
     const errMsg = res.msg || '请求失败！'
-    if ((res.code && res.code !== 200) || (res.status && res.status !== 200)) {
+    if (res.code && res.code !== 200) {
       Message({
         message: errMsg || '请求失败',
         duration: 1000,

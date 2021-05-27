@@ -7,7 +7,7 @@ const sqlConfig = {
   database: 'network_disk'
 }
 
-console.log('init sequelize...');
+console.log('init sequelize...')
 
 const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
   host: sqlConfig.host,
@@ -24,9 +24,9 @@ exports.sequelize = sequelize
 
 exports.defineModel = (name, attributes) => {
   const attrs = {}
-  for(let key in attributes) {
-    let val = attributes[key]
-    if(typeof val === 'object' && val['type']) {
+  for (const key in attributes) {
+    const val = attributes[key]
+    if (typeof val === 'object' && val['type']) {
       val.allowNull = val.allowNull || true
       attrs[key] = val
     } else {

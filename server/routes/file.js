@@ -41,7 +41,7 @@ router.post('/del-file', [
   errorChecking(next, req, () => {
     const { cur_url, file_id } = req.body
     handleDelFile(cur_url, file_id, data => {
-      data && new Result('删除成功').success(res)
+      new Result('删除成功').success(res)
     })
   })
 })

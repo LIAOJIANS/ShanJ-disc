@@ -85,7 +85,7 @@
                   <div v-show="currentlyMoving === file.f_id" class="list-item-hover pr-3">
                     <i class="el-icon-share pr-1" />
                     <i class="el-icon-download pr-1" />
-                    <i class="el-icon-delete" />
+                    <i class="el-icon-delete" @click="delFile" />
                   </div>
                 </div>
               </el-col>

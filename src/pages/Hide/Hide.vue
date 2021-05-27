@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Hide",
+  name: 'Hide',
 
   created() {
     console.log(this.$router)

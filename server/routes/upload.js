@@ -38,7 +38,7 @@ router.post('/upload-list',
     errorChecking(next, req, () => {
       const { uId, groupingName } = req.body
       uploadList(uId, groupingName, data => {
-        data.length > 0 ? new Result(data, '获取成功').success(res) : new Result('暂无数据').fail(res)
+        data.length > 0 ? new Result(data, '获取成功').success(res) : new Result([], '暂无数据').success(res)
       })
     })
   })
@@ -81,7 +81,7 @@ router.post('/dow_file', [
 router.get('/history', (req, res) => {
   const decode = decoded(req)
   historyList({ u_name: decode.username }, data => {
-    data.length > 0 ? new Result(data, '获取成功').success(res) : new Result('暂无数据').fail(res)
+    data.length > 0 ? new Result(data, '获取成功').success(res) : new Result([], '暂无数据').success(res)
   })
 })
 

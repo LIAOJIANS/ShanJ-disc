@@ -28,7 +28,8 @@ export default {
   name: 'DownloadList',
   props: {
     list: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
 
@@ -78,9 +79,7 @@ export default {
         type: 'warning'
       }).then(() => {
         path === '/recycle' ? this.realDelFile(fId, name) : this.historyDel(fId)
-      }).catch(() => {
-        console.log('取消')
-      })
+      }).catch(() => {})
     },
     historyDel(fId) {
       uploadHistory(fId).then(res => {
