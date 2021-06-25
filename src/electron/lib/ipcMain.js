@@ -39,7 +39,7 @@ const mainWindowIpcStart = function(win) {
   })
 
   // 设置下载路径
-  ipcMain.on('set_path', function(e, data = {}) {
+  ipcMain.on('set_path', (e, data = {}) => {
     const { path } = data
     if (path) {
       if (path !== 'not') app.setPath('downloads', path)
@@ -58,12 +58,12 @@ const mainWindowIpcStart = function(win) {
     }
   })
 
-  // 设置下载路径
-  ipcMain.on('check_path', function(e, data = {}) {
+  // 在应用中打开文件
+  ipcMain.on('check_path', (e, data = {}) => {
     const { path } = data
-    fs.access(path, fs.constants.F_OK, (err) => {
+    fs.access(path, fs.constants.F_OK, (err) => { // 利用fs 读取文件路径
       if (!err) {
-        shell.showItemInFolder(path)
+        shell.showItemInFolder(path) // 打开文件
       }
       e.reply('check_path' + path, err)
     })

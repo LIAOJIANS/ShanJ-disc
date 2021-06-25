@@ -105,6 +105,9 @@ export default {
 <style lang="scss">
 .index-right {
   width: 100%;
+
+  min-width: 912px;
+
   height: 80px;
   background: #EEF0F6;
   border-bottom: 1px solid #ccc;

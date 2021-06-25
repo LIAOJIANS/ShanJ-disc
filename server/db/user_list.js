@@ -1,5 +1,6 @@
+
 const Sequelize = require('sequelize')
-const db = require('./index')
+const db = require('./index') // 引入刚刚写的sequelize配置
 
 module.exports = db.defineModel('user_list', {
   u_id: { type: Sequelize.INTEGER, allowNull: false, primaryKey: true, unique: true, autoIncrement: true },

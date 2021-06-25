@@ -1,5 +1,4 @@
 
-
 const fileList = require('../fileList')
 
 fileList.sync({

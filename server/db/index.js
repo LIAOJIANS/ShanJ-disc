@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const sqlConfig = {
+const sqlConfig = { // mysql 基本配置
   host: 'localhost',
   user: 'root',
   password: 'root',
@@ -9,7 +9,7 @@ const sqlConfig = {
 
 console.log('init sequelize...')
 
-const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
+const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, { // 连接mysql
   host: sqlConfig.host,
   dialect: 'mysql',
   pool: {
@@ -20,11 +20,11 @@ const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.pa
   timezone: '+08:00'
 })
 
-exports.sequelize = sequelize
+exports.sequelize = sequelize // 抛出sequelize实例
 
 exports.defineModel = (name, attributes) => {
   const attrs = {}
-  for (const key in attributes) {
+  for (const key in attributes) { // 循环表字段
     const val = attributes[key]
     if (typeof val === 'object' && val['type']) {
       val.allowNull = val.allowNull || true
@@ -39,19 +39,7 @@ exports.defineModel = (name, attributes) => {
     type: Sequelize.BIGINT
   }
 
-  // attrs.createUser  = {
-  //   type: Sequelize.STRING,
-  //   defaultValue: 'Shan',
-  //   allowNull: false
-  // }
-  //
-  // attrs.updateUser = {
-  //   type: Sequelize.STRING,
-  //   defaultValue: 'Shan',
-  //   allowNull: false
-  // }
-
-  return sequelize.define(name, attrs, {
+  return sequelize.define(name, attrs, { // 表默认配置
     tableName: name,
     timestamps: true,
     paranoid: true,

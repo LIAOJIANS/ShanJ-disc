@@ -3,18 +3,18 @@
     <div class="home-button-left pl-1 pr-1" style="width: 198px;">
       <progress-list :show-text="false" :percentage="expansionRatio" :width="6" />
       <div class="mt-1 dispaly-flex">
-        <p><span>{{ userInfo.u_used_capacity }} G</span> / <span>{{ userInfo.u_capacity }} G</span></p>
+        <p><span>{{ usedCapacity || 0 }} G</span> / <span>{{ userInfo.u_capacity }} G</span></p>
         <p style="color: #00B7FF; cursor: pointer">扩容</p>
       </div>
     </div>
     <div class="home-button-right f1 ">
-      <p class="pl-1">54项</p>
+      <p class="pl-1">{{ $store.getters.fileList.length }}项</p>
     </div>
   </div>
 </template>
 
 <script>
-import ProgressList from '../../../components/progress/progress'
+import ProgressList from '@/components/progress/progress'
 export default {
   name: 'FileButton',
 
@@ -28,9 +28,19 @@ export default {
     },
 
     expansionRatio() {
-      return this.userInfo.u_used_capacity / this.userInfo.u_capacity * 10 || 0
+      return this.usedCapacity / this.userInfo.u_capacity * 10 || 0
+    },
+
+    usedCapacity() {
+      const counts = this.$store.getters.fileList.map(c => parseInt(c.f_size))
+      return counts.reduce((prev, curr) => ((curr + prev) / 1024 / 1024)).toFixed(1) * 1
     }
+  },
+
+  created() {
+    console.log(this.$store.getters.fileList)
   }
+
 }
 </script>
 
